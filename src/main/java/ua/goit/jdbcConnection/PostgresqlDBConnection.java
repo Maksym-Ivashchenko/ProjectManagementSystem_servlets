@@ -5,7 +5,7 @@ import java.sql.*;
 public class PostgresqlDBConnection {
     public static void main(String[] args) {
         LogIn user = new LogIn();
-        String dbUrl = "jdbc:postgresql://localhost:5455/postgres";
+        String dbUrl = "jdbc:postgresql://127.0.0.1:5455/postgres/goit_dev";
         String dbUser = user.getUserName();
         String dbPass = user.getUserPassword();
 
