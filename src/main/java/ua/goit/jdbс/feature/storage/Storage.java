@@ -1,7 +1,7 @@
-package ua.goit.jdbcConnection.feature.storage;
+package ua.goit.jdbс.feature.storage;
 
-import ua.goit.jdbcConnection.LogIn;
-import ua.goit.jdbcConnection.feature.prefs.Prefs;
+import ua.goit.jdbс.LogIn;
+import ua.goit.jdbс.feature.prefs.Prefs;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

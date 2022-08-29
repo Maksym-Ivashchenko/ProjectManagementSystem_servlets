@@ -1,4 +1,4 @@
-package ua.goit.jdbcConnection;
+package ua.goit.jdbс;
 
 public class LogIn {
     public String getUserName() {

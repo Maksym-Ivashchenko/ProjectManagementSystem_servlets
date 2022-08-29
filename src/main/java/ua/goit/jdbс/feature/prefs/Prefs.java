@@ -1,4 +1,4 @@
-package ua.goit.jdbcConnection.feature.prefs;
+package ua.goit.jdbс.feature.prefs;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

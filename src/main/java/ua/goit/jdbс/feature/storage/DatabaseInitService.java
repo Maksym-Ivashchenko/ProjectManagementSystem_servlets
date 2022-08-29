@@ -1,6 +1,7 @@
-package ua.goit.jdbcConnection.feature.storage;
+package ua.goit.jdbс.feature.storage;
 
-import ua.goit.jdbcConnection.feature.prefs.Prefs;
+import ua.goit.jdbс.feature.prefs.Prefs;
+import ua.goit.jdbс.feature.storage.Storage;
 
 import java.io.IOException;
 import java.nio.file.Files;
