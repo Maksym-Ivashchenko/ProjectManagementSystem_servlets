@@ -53,7 +53,10 @@ select d.salary, s.skill_level from goit_dev.developers as d
 
 select * from developers;
 
-DELETE FROM goit_dev.developers WHERE id = 11;]]></console>
+DELETE FROM goit_dev.developers WHERE id = 11;
+
+SELECT id, developer_name, age, gender, different, salary 
+FROM goit_dev.developers;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">

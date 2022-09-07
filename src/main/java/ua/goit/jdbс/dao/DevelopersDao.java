@@ -73,12 +73,12 @@ public class DevelopersDao {
 
     @Override
     public String toString() {
-        return "DevelopersDao:\n" +
+        return "\n{DevelopersDao:\s" +
                 "id = " + id +
-                "\ndeveloperName = " + developerName +
-                "\nage = " + age +
-                "\ngender = " + gender +
-                "\ndifferent = " + different +
-                "\nsalary = " + salary;
+                ", developerName = " + developerName +
+                ", age = " + age +
+                ", gender = " + gender +
+                ", different = " + different +
+                ", salary = " + salary + "}";
     }
 }

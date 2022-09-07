@@ -17,7 +17,9 @@ public class DevelopersService {
 
     public DevelopersDto save(DevelopersDto dto) {
         DevelopersDao savedDeveloper = developersRepository.save(developersConverter.to(dto));
-        return developersConverter.from(savedDeveloper);
+        DevelopersDto developersDto = developersConverter.from(savedDeveloper);
+        validateDeveloper(dto, developersDto);
+        return developersDto;
     }
 
     public DevelopersDto findById(Integer id) {

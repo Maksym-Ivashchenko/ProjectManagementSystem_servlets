@@ -108,11 +108,20 @@ public class DevelopersRepository implements Repository<DevelopersDao> {
              PreparedStatement statement = connection.prepareStatement(SELECT_ALL)) {
 
             resultSet = statement.executeQuery();
-            while (resultSet.next())
-            daoList.add(convert(resultSet));
+            while (resultSet.next()) {
+                DevelopersDao developersDao = new DevelopersDao();
+                developersDao.setId(resultSet.getInt("id"));
+                developersDao.setDeveloperName(resultSet.getString("developer_name"));
+                developersDao.setAge(resultSet.getInt("age"));
+                developersDao.setGender(resultSet.getString("gender"));
+                developersDao.setDifferent(resultSet.getString("different"));
+                developersDao.setSalary(resultSet.getInt("salary"));
+                daoList.add(developersDao);
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new RuntimeException("Developers not found");
         }
         return daoList;
     }

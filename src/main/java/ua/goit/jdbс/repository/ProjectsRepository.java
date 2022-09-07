@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,6 +18,12 @@ public class ProjectsRepository implements Repository<ProjectsDao> {
             "comments, cost) VALUES (?, ?, ?, ?, ?)";
     private static final String SELECT_BY_ID = "SELECT id, project_name, project_type, comments, cost " +
             "FROM goit_dev.projects WHERE id = ?";
+    private static final String UPDATE_BY_ID = "UPDATE goit_dev.projects " +
+            "SET project_name = ?, project_type = ?, comments = ?, cost = ?" +
+            "WHERE id = ?;";
+    private static final String DELETE_BY_ID = "DELETE FROM goit_dev.projects WHERE id = ?;";
+    private static final String SELECT_ALL = "SELECT id, project_name, project_type, comments, cost " +
+            "FROM goit_dev.projects;";
 
     public ProjectsRepository(DatabaseManagerConnector connector) {
         this.connector = connector;
@@ -38,19 +45,41 @@ public class ProjectsRepository implements Repository<ProjectsDao> {
         } catch (
                 SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException("Project not created");
+            throw new RuntimeException("Project is not created");
         }
         return entity;
     }
 
     @Override
     public void update(ProjectsDao entity) {
+        try (Connection connection = connector.getConnection();
+             PreparedStatement statement = connection.prepareStatement(UPDATE_BY_ID)) {
 
+            statement.setString(1, entity.getProjectName());
+            statement.setString(2, entity.getProjectType());
+            statement.setString(3, entity.getComments());
+            statement.setInt(4, entity.getCost());
+            statement.setInt(5, entity.getId());
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Project is not updated");
+        }
     }
 
     @Override
     public void delete(ProjectsDao entity) {
+        try (Connection connection = connector.getConnection();
+             PreparedStatement statement = connection.prepareStatement(DELETE_BY_ID)) {
+            statement.setInt(1, entity.getId());
 
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Project is not deleted");
+        }
     }
 
     @Override
@@ -72,7 +101,26 @@ public class ProjectsRepository implements Repository<ProjectsDao> {
 
     @Override
     public List<ProjectsDao> findAll() {
-        return null;
+        List<ProjectsDao> daoList = new ArrayList<>();
+        ResultSet resultSet = null;
+        try (Connection connection = connector.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SELECT_ALL)) {
+
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                ProjectsDao projectsDao = new ProjectsDao();
+                projectsDao.setId(resultSet.getInt("id"));
+                projectsDao.setProjectName(resultSet.getString("project_name"));
+                projectsDao.setProjectType(resultSet.getString("project_type"));
+                projectsDao.setComments(resultSet.getString("comments"));
+                projectsDao.setCost(resultSet.getInt("cost"));
+                daoList.add(projectsDao);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Projects not found");
+        }
+        return daoList;
     }
     private ProjectsDao convert(ResultSet resultSet) throws SQLException {
         ProjectsDao projectsDao = new ProjectsDao();

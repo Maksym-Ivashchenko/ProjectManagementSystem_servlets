@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,6 +18,12 @@ public class CompaniesRepository implements Repository<CompaniesDao> {
             "VALUES (?, ?, ?, ?)";
     private static final String SELECT_BY_ID = "SELECT id, company_name, city, email " +
             "FROM goit_dev.companies WHERE id = ?";
+    private static final String UPDATE_BY_ID = "UPDATE goit_dev.companies " +
+            "SET company_name = ?, city = ?, email = ?" +
+            "WHERE id = ?;";
+    private static final String DELETE_BY_ID = "DELETE FROM goit_dev.companies WHERE id = ?;";
+    private static final String SELECT_ALL = "SELECT id, company_name, city, email " +
+            "FROM goit_dev.companies;";
 
     public CompaniesRepository(DatabaseManagerConnector connector) {
         this.connector = connector;
@@ -37,19 +44,40 @@ public class CompaniesRepository implements Repository<CompaniesDao> {
         } catch (
                 SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException("Company not created");
+            throw new RuntimeException("Company is not created");
         }
         return entity;
     }
 
     @Override
     public void update(CompaniesDao entity) {
+        try (Connection connection = connector.getConnection();
+             PreparedStatement statement = connection.prepareStatement(UPDATE_BY_ID)) {
 
+            statement.setString(1, entity.getCompanyName());
+            statement.setString(2, entity.getCity());
+            statement.setString(3, entity.getEmail());
+            statement.setInt(4, entity.getId());
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Company is not updated");
+        }
     }
 
     @Override
     public void delete(CompaniesDao entity) {
+        try (Connection connection = connector.getConnection();
+             PreparedStatement statement = connection.prepareStatement(DELETE_BY_ID)) {
+            statement.setInt(1, entity.getId());
 
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Company is not deleted");
+        }
     }
 
     @Override
@@ -71,7 +99,25 @@ public class CompaniesRepository implements Repository<CompaniesDao> {
 
     @Override
     public List<CompaniesDao> findAll() {
-        return null;
+        List<CompaniesDao> daoList = new ArrayList<>();
+        ResultSet resultSet = null;
+        try (Connection connection = connector.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SELECT_ALL)) {
+
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                CompaniesDao companiesDao = new CompaniesDao();
+                companiesDao.setId(resultSet.getInt("id"));
+                companiesDao.setCompanyName(resultSet.getString("company_name"));
+                companiesDao.setCity(resultSet.getString("city"));
+                companiesDao.setEmail(resultSet.getString("email"));
+                daoList.add(companiesDao);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Companies not found");
+        }
+        return daoList;
     }
 
     private CompaniesDao convert(ResultSet resultSet) throws SQLException {
