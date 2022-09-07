@@ -6,6 +6,8 @@ import ua.goit.jdbс.config.PropertiesConfig;
 import ua.goit.jdbс.dao.DevelopersDao;
 import ua.goit.jdbс.repository.DevelopersRepository;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 public class App {
@@ -21,14 +23,18 @@ public class App {
         DevelopersRepository developersRepository = new DevelopersRepository(dbManager);
         DevelopersDao developer = new DevelopersDao();
         developer.setId(11);
-        developer.setDeveloperName("Maksim");
-        developer.setAge(36);
-        developer.setGender("Men");
-        developer.setDifferent("switcher");
-        developer.setSalary(1000);
-
+//        developer.setDeveloperName("Maksim");
+//        developer.setAge(36);
+//        developer.setGender("men");
+//        developer.setDifferent("maksim@mail.com");
+//        developer.setSalary(3000);
+//
 //        developersRepository.save(developer);
-        DevelopersDao savedDeveloper = developersRepository.findById(11);
-        System.out.println(savedDeveloper);
+//        DevelopersDao savedDeveloper = developersRepository.findById(11);
+//        System.out.println(savedDeveloper);
+//        developersRepository.update(developer);
+//        developersRepository.delete(developer);
+        List<DevelopersDao> all = developersRepository.findAll();
+        System.out.println(all);
     }
 }

@@ -29,12 +29,31 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="59bf20bd-bc1d-46fd-8365-fed994bfda99">
-      <console name="postgres" type="STANDARD" schema="public" session="Main"><![CDATA[select * from employees;
-
-delete from employees where employee_id = 1;]]></console>
+      <console name="postgres" type="STANDARD" schema="public" session="Main"><![CDATA[UPDATE goit_dev.developers SET salary = 1000 WHERE id = 1]]></console>
     </connection>
     <connection id="debe73df-c756-4a2a-8973-43728aa77419">
-      <console name="go_it_dev" type="STANDARD" schema="goit_dev" session="Main"><![CDATA[select * from goit_dev.developers;]]></console>
+      <console name="go_it_dev" type="STANDARD" schema="goit_dev" session="Main"><![CDATA[select d.developer_name, d.salary, s.skill_level from goit_dev.developers as d
+join developers_skills as ds on ds.developer_id=d.id
+join goit_dev.skills as s on s.id = ds.skill_id;
+
+
+UPDATE goit_dev.developers 
+SET developer_name = 'Maks',
+    age = 30,
+    gender = 'men',
+    different = 'max@mail.com',
+    salary = 4000
+WHERE id = 11;
+
+
+select d.salary, s.skill_level from goit_dev.developers as d
+  join goit_dev.developers_skills as ds on d.id = ds.developer_id
+  join goit_dev.skills as s on s.id = ds.skill_id;
+  where s.skill_level = 'Junior';
+
+select * from developers;
+
+DELETE FROM goit_dev.developers WHERE id = 11;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">

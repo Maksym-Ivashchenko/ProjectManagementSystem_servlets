@@ -23,7 +23,7 @@ public class CompaniesRepository implements Repository<CompaniesDao> {
     }
 
     @Override
-    public void save(CompaniesDao entity) {
+    public CompaniesDao save(CompaniesDao entity) {
         try (Connection connection = connector.getConnection();
                 PreparedStatement statement = connection.prepareStatement(INSERT)) {
 
@@ -37,12 +37,18 @@ public class CompaniesRepository implements Repository<CompaniesDao> {
         } catch (
                 SQLException e) {
             e.printStackTrace();
+            throw new RuntimeException("Company not created");
         }
-
+        return entity;
     }
 
     @Override
     public void update(CompaniesDao entity) {
+
+    }
+
+    @Override
+    public void delete(CompaniesDao entity) {
 
     }
 

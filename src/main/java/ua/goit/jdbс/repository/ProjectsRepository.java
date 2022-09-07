@@ -23,7 +23,7 @@ public class ProjectsRepository implements Repository<ProjectsDao> {
     }
 
     @Override
-    public void save(ProjectsDao entity) {
+    public ProjectsDao save(ProjectsDao entity) {
         try (Connection connection = connector.getConnection();
              PreparedStatement statement = connection.prepareStatement(INSERT)) {
 
@@ -38,12 +38,18 @@ public class ProjectsRepository implements Repository<ProjectsDao> {
         } catch (
                 SQLException e) {
             e.printStackTrace();
+            throw new RuntimeException("Project not created");
         }
-
+        return entity;
     }
 
     @Override
     public void update(ProjectsDao entity) {
+
+    }
+
+    @Override
+    public void delete(ProjectsDao entity) {
 
     }
 

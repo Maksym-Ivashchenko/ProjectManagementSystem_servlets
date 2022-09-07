@@ -23,7 +23,7 @@ public class SkillsRepository implements Repository<SkillsDao> {
     }
 
     @Override
-    public void save(SkillsDao entity) {
+    public SkillsDao save(SkillsDao entity) {
         try (Connection connection = connector.getConnection();
              PreparedStatement statement = connection.prepareStatement(INSERT)) {
 
@@ -36,11 +36,18 @@ public class SkillsRepository implements Repository<SkillsDao> {
         } catch (
                 SQLException e) {
             e.printStackTrace();
+            throw new RuntimeException("Skill not created");
         }
+        return entity;
     }
 
     @Override
     public void update(SkillsDao entity) {
+
+    }
+
+    @Override
+    public void delete(SkillsDao entity) {
 
     }
 

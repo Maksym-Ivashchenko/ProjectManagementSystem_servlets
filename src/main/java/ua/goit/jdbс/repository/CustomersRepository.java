@@ -23,7 +23,7 @@ public class CustomersRepository implements Repository<CustomersDao> {
     }
 
     @Override
-    public void save(CustomersDao entity) {
+    public CustomersDao save(CustomersDao entity) {
         try (Connection connection = connector.getConnection();
              PreparedStatement statement = connection.prepareStatement(INSERT)) {
 
@@ -37,11 +37,18 @@ public class CustomersRepository implements Repository<CustomersDao> {
         } catch (
                 SQLException e) {
             e.printStackTrace();
+            throw new RuntimeException("Customer not created");
         }
+        return entity;
     }
 
     @Override
     public void update(CustomersDao entity) {
+
+    }
+
+    @Override
+    public void delete(CustomersDao entity) {
 
     }
 
