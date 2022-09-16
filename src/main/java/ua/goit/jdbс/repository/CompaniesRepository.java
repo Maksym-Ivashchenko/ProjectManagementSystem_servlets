@@ -82,7 +82,7 @@ public class CompaniesRepository implements Repository<CompaniesDao> {
 
     @Override
     public CompaniesDao findById(Integer id) {
-        ResultSet resultSet = null;
+        ResultSet resultSet;
         try (Connection connection = connector.getConnection();
              PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID)) {
 
@@ -100,17 +100,14 @@ public class CompaniesRepository implements Repository<CompaniesDao> {
     @Override
     public List<CompaniesDao> findAll() {
         List<CompaniesDao> daoList = new ArrayList<>();
-        ResultSet resultSet = null;
+        ResultSet resultSet;
         try (Connection connection = connector.getConnection();
              PreparedStatement statement = connection.prepareStatement(SELECT_ALL)) {
 
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 CompaniesDao companiesDao = new CompaniesDao();
-                companiesDao.setId(resultSet.getInt("id"));
-                companiesDao.setCompanyName(resultSet.getString("company_name"));
-                companiesDao.setCity(resultSet.getString("city"));
-                companiesDao.setEmail(resultSet.getString("email"));
+                setParameters(resultSet, companiesDao);
                 daoList.add(companiesDao);
             }
         } catch (SQLException e) {
@@ -123,12 +120,16 @@ public class CompaniesRepository implements Repository<CompaniesDao> {
     private CompaniesDao convert(ResultSet resultSet) throws SQLException {
         CompaniesDao companiesDao = new CompaniesDao();
         while (resultSet.next()) {
-            companiesDao.setId(resultSet.getInt("id"));
-            companiesDao.setCompanyName(resultSet.getString("company_name"));
-            companiesDao.setCity(resultSet.getString("city"));
-            companiesDao.setEmail(resultSet.getString("email"));
+            setParameters(resultSet, companiesDao);
         }
         return companiesDao;
+    }
+
+    private void setParameters(ResultSet resultSet, CompaniesDao companiesDao) throws SQLException {
+        companiesDao.setId(resultSet.getInt("id"));
+        companiesDao.setCompanyName(resultSet.getString("company_name"));
+        companiesDao.setCity(resultSet.getString("city"));
+        companiesDao.setEmail(resultSet.getString("email"));
     }
 
 }

@@ -24,6 +24,16 @@ public class DevelopersRepository implements Repository<DevelopersDao> {
     private static final String DELETE_BY_ID = "DELETE FROM goit_dev.developers WHERE id = ?;";
     private static final String SELECT_ALL = "SELECT id, developer_name, age, gender, different, salary " +
             "FROM goit_dev.developers;";
+    private static final String LIST_OF_ALL_DEVELOPERS_BY_BRANCH =
+            "SELECT developer_name FROM goit_dev.developers AS d\n" +
+            "JOIN goit_dev.developers_skills AS ds ON d.id = ds.developer_id\n" +
+            "JOIN goit_dev.skills AS s ON s.id = ds.skill_id\n" +
+            "WHERE s.branch = ?;";
+    private static final String LIST_OF_ALL_DEVELOPERS_BY_SKILL_LEVEL =
+            "SELECT developer_name FROM goit_dev.developers AS d\n" +
+                    "JOIN goit_dev.developers_skills AS ds ON d.id = ds.developer_id\n" +
+                    "JOIN goit_dev.skills AS s ON s.id = ds.skill_id\n" +
+                    "WHERE s.skill_level = ?;";
 
     public DevelopersRepository(DatabaseManagerConnector connector) {
         this.connector = connector;
@@ -85,7 +95,7 @@ public class DevelopersRepository implements Repository<DevelopersDao> {
 
     @Override
     public DevelopersDao findById(Integer id) {
-        ResultSet resultSet = null;
+        ResultSet resultSet;
         try (Connection connection = connector.getConnection();
              PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID)) {
 
@@ -103,19 +113,14 @@ public class DevelopersRepository implements Repository<DevelopersDao> {
     @Override
     public List<DevelopersDao> findAll() {
         List<DevelopersDao> daoList = new ArrayList<>();
-        ResultSet resultSet = null;
+        ResultSet resultSet;
         try (Connection connection = connector.getConnection();
              PreparedStatement statement = connection.prepareStatement(SELECT_ALL)) {
 
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 DevelopersDao developersDao = new DevelopersDao();
-                developersDao.setId(resultSet.getInt("id"));
-                developersDao.setDeveloperName(resultSet.getString("developer_name"));
-                developersDao.setAge(resultSet.getInt("age"));
-                developersDao.setGender(resultSet.getString("gender"));
-                developersDao.setDifferent(resultSet.getString("different"));
-                developersDao.setSalary(resultSet.getInt("salary"));
+                setParameters(resultSet, developersDao);
                 daoList.add(developersDao);
             }
 
@@ -126,15 +131,56 @@ public class DevelopersRepository implements Repository<DevelopersDao> {
         return daoList;
     }
 
+    public List<String> getListOfAllDevelopersByBranch(String branch) {
+        List<String> daoList = new ArrayList<>();
+        ResultSet resultSet;
+        try (Connection connection = connector.getConnection();
+             PreparedStatement statement = connection.prepareStatement(LIST_OF_ALL_DEVELOPERS_BY_BRANCH)) {
+            statement.setString(1, branch);
+
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                daoList.add(resultSet.getString("developer_name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Request failed!");
+        }
+        return daoList;
+    }
+
+    public List<String> getListOfAllDevelopersBySkillLevel(String skillLevel) {
+        List<String> daoList = new ArrayList<>();
+        ResultSet resultSet;
+        try (Connection connection = connector.getConnection();
+             PreparedStatement statement = connection.prepareStatement(LIST_OF_ALL_DEVELOPERS_BY_SKILL_LEVEL)) {
+            statement.setString(1, skillLevel);
+
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                daoList.add(resultSet.getString("developer_name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Request failed!");
+        }
+        return daoList;
+    }
+
+
+    private void setParameters(ResultSet resultSet, DevelopersDao developersDao) throws SQLException {
+        developersDao.setId(resultSet.getInt("id"));
+        developersDao.setDeveloperName(resultSet.getString("developer_name"));
+        developersDao.setAge(resultSet.getInt("age"));
+        developersDao.setGender(resultSet.getString("gender"));
+        developersDao.setDifferent(resultSet.getString("different"));
+        developersDao.setSalary(resultSet.getInt("salary"));
+    }
+
     private DevelopersDao convert(ResultSet resultSet) throws SQLException {
         DevelopersDao developersDao = new DevelopersDao();
         while (resultSet.next()) {
-            developersDao.setId(resultSet.getInt("id"));
-            developersDao.setDeveloperName(resultSet.getString("developer_name"));
-            developersDao.setAge(resultSet.getInt("age"));
-            developersDao.setGender(resultSet.getString("gender"));
-            developersDao.setDifferent(resultSet.getString("different"));
-            developersDao.setSalary(resultSet.getInt("salary"));
+            setParameters(resultSet, developersDao);
         }
         return developersDao;
     }

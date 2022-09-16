@@ -83,7 +83,7 @@ public class CustomersRepository implements Repository<CustomersDao> {
 
     @Override
     public CustomersDao findById(Integer id) {
-        ResultSet resultSet = null;
+        ResultSet resultSet;
         try (Connection connection = connector.getConnection();
              PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID)) {
 
@@ -101,17 +101,14 @@ public class CustomersRepository implements Repository<CustomersDao> {
     @Override
     public List<CustomersDao> findAll() {
         List<CustomersDao> daoList = new ArrayList<>();
-        ResultSet resultSet = null;
+        ResultSet resultSet;
         try (Connection connection = connector.getConnection();
              PreparedStatement statement = connection.prepareStatement(SELECT_ALL)) {
 
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 CustomersDao customersDao = new CustomersDao();
-                customersDao.setId(resultSet.getInt("id"));
-                customersDao.setCustomerName(resultSet.getString("customer_name"));
-                customersDao.setCountry(resultSet.getString("country"));
-                customersDao.setEmail(resultSet.getString("email"));
+                setParameters(resultSet, customersDao);
                 daoList.add(customersDao);
             }
         } catch (SQLException e) {
@@ -123,11 +120,15 @@ public class CustomersRepository implements Repository<CustomersDao> {
     private CustomersDao convert(ResultSet resultSet) throws SQLException {
         CustomersDao customersDao = new CustomersDao();
         while (resultSet.next()) {
-            customersDao.setId(resultSet.getInt("id"));
-            customersDao.setCustomerName(resultSet.getString("customer_name"));
-            customersDao.setCountry(resultSet.getString("country"));
-            customersDao.setEmail(resultSet.getString("email"));
+            setParameters(resultSet, customersDao);
         }
         return customersDao;
+    }
+
+    private void setParameters(ResultSet resultSet, CustomersDao customersDao) throws SQLException {
+        customersDao.setId(resultSet.getInt("id"));
+        customersDao.setCustomerName(resultSet.getString("customer_name"));
+        customersDao.setCountry(resultSet.getString("country"));
+        customersDao.setEmail(resultSet.getString("email"));
     }
 }

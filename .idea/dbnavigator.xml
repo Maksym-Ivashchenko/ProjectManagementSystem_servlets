@@ -32,31 +32,39 @@
       <console name="postgres" type="STANDARD" schema="public" session="Main"><![CDATA[UPDATE goit_dev.developers SET salary = 1000 WHERE id = 1]]></console>
     </connection>
     <connection id="debe73df-c756-4a2a-8973-43728aa77419">
-      <console name="go_it_dev" type="STANDARD" schema="goit_dev" session="Main"><![CDATA[select d.developer_name, d.salary, s.skill_level from goit_dev.developers as d
-join developers_skills as ds on ds.developer_id=d.id
-join goit_dev.skills as s on s.id = ds.skill_id;
+      <console name="go_it_dev" type="STANDARD" schema="goit_dev" session="Main"><![CDATA[SELECT id, developer_name, age, gender, different, salary 
+FROM goit_dev.developers;
 
+1
+SELECT sum(salary) FROM goit_dev.developers AS d
+JOIN goit_dev.developers_projects AS dp ON d.id = dp.developer_id
+JOIN goit_dev.projects AS p ON p.id = dp.project_id
+WHERE p.project_name = 'Project_3';
 
-UPDATE goit_dev.developers 
-SET developer_name = 'Maks',
-    age = 30,
-    gender = 'men',
-    different = 'max@mail.com',
-    salary = 4000
-WHERE id = 11;
+2
+SELECT developer_name FROM goit_dev.developers AS d
+JOIN goit_dev.developers_projects AS dp ON d.id = dp.developer_id
+JOIN goit_dev.projects AS p ON p.id = dp.project_id
+WHERE p.project_name = 'Project_3';
 
+3
+SELECT developer_name FROM goit_dev.developers AS d
+JOIN goit_dev.developers_skills AS ds ON d.id = ds.developer_id
+JOIN goit_dev.skills AS s ON s.id = ds.skill_id
+WHERE s.branch = 'Java';
 
-select d.salary, s.skill_level from goit_dev.developers as d
-  join goit_dev.developers_skills as ds on d.id = ds.developer_id
-  join goit_dev.skills as s on s.id = ds.skill_id;
-  where s.skill_level = 'Junior';
+4
+SELECT developer_name FROM goit_dev.developers AS d
+JOIN goit_dev.developers_skills AS ds ON d.id = ds.developer_id
+JOIN goit_dev.skills AS s ON s.id = ds.skill_id
+WHERE s.skill_level = 'Middle';
 
-select * from developers;
-
-DELETE FROM goit_dev.developers WHERE id = 11;
-
-SELECT id, developer_name, age, gender, different, salary 
-FROM goit_dev.developers;]]></console>
+5
+SELECT p.date_created, p.project_name, COUNT(d.developer_name) FROM goit_dev.projects AS p
+JOIN goit_dev.developers_projects AS dp ON p.id = dp.project_id
+JOIN goit_dev.developers AS d ON d.id = dp.developer_id
+GROUP BY p.date_created, p.project_name
+ORDER BY project_name;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
@@ -76,6 +84,9 @@ FROM goit_dev.developers;]]></console>
   </component>
   <component name="DBNavigator.Project.ExecutionManager">
     <retain-sticky-names value="false" />
+  </component>
+  <component name="DBNavigator.Project.FileConnectionMappingManager">
+    <mapping file-url="file://$PROJECT_DIR$/src/main/resources/add_column_date_created.sql" connection-id="debe73df-c756-4a2a-8973-43728aa77419" session-id="MAIN" current-schema="goit_dev" />
   </component>
   <component name="DBNavigator.Project.MethodExecutionManager">
     <method-browser />
@@ -203,7 +214,7 @@ FROM goit_dev.developers;]]></console>
           <deprecated-pwd value="MTIzNDU=" />
         </database>
         <properties>
-          <auto-commit value="false" />
+          <auto-commit value="true" />
         </properties>
         <ssh-settings>
           <active value="false" />
