@@ -1,7 +1,5 @@
 package ua.goit.jdbс.dto;
 
-import java.sql.Date;
-
 public class DevelopersDto {
     Integer id;
     String developerName;
@@ -15,6 +13,14 @@ public class DevelopersDto {
 
     public DevelopersDto(Integer id, String developerName, Integer age, String gender, String different, Integer salary) {
         this.id = id;
+        this.developerName = developerName;
+        this.age = age;
+        this.gender = gender;
+        this.different = different;
+        this.salary = salary;
+    }
+
+    public DevelopersDto(String developerName, Integer age, String gender, String different, Integer salary) {
         this.developerName = developerName;
         this.age = age;
         this.gender = gender;
@@ -68,5 +74,17 @@ public class DevelopersDto {
 
     public void setSalary(Integer salary) {
         this.salary = salary;
+    }
+
+    @Override
+    public String toString() {
+        return "DevelopersDto{" +
+                "id=" + id +
+                ", developerName='" + developerName + '\'' +
+                ", age=" + age +
+                ", gender='" + gender + '\'' +
+                ", different='" + different + '\'' +
+                ", salary=" + salary +
+                '}';
     }
 }

@@ -33,12 +33,16 @@
     </connection>
     <connection id="debe73df-c756-4a2a-8973-43728aa77419">
       <console name="go_it_dev" type="STANDARD" schema="goit_dev" session="Main"><![CDATA[SELECT id, developer_name, age, gender, different, salary 
-FROM goit_dev.developers;
+FROM developers;
+
+select * from projects; 
+
+DROP TABLE test_table;
 
 1
-SELECT sum(salary) FROM goit_dev.developers AS d
-JOIN goit_dev.developers_projects AS dp ON d.id = dp.developer_id
-JOIN goit_dev.projects AS p ON p.id = dp.project_id
+SELECT sum(salary) FROM developers AS d
+JOIN developers_projects AS dp ON d.id = dp.developer_id
+JOIN projects AS p ON p.id = dp.project_id
 WHERE p.project_name = 'Project_3';
 
 2
@@ -87,6 +91,10 @@ ORDER BY project_name;]]></console>
   </component>
   <component name="DBNavigator.Project.FileConnectionMappingManager">
     <mapping file-url="file://$PROJECT_DIR$/src/main/resources/add_column_date_created.sql" connection-id="debe73df-c756-4a2a-8973-43728aa77419" session-id="MAIN" current-schema="goit_dev" />
+    <mapping file-url="file://$PROJECT_DIR$/src/main/resources/populateDB.sql" connection-id="debe73df-c756-4a2a-8973-43728aa77419" session-id="MAIN" current-schema="goit_dev" />
+    <mapping file-url="file://$USER_HOME$/Library/Mobile Documents/com~apple~TextEdit/Documents/initDB.sql" connection-id="debe73df-c756-4a2a-8973-43728aa77419" session-id="MAIN" current-schema="goit_dev" />
+    <mapping file-url="file://$PROJECT_DIR$/src/main/resources/initDB.sql" connection-id="debe73df-c756-4a2a-8973-43728aa77419" session-id="MAIN" current-schema="goit_dev" />
+    <mapping file-url="file://$PROJECT_DIR$/src/main/resources/v_1_update.sql" connection-id="debe73df-c756-4a2a-8973-43728aa77419" session-id="MAIN" current-schema="goit_dev" />
   </component>
   <component name="DBNavigator.Project.MethodExecutionManager">
     <method-browser />

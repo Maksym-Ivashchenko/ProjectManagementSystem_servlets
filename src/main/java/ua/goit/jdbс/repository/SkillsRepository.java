@@ -14,14 +14,14 @@ import java.util.Objects;
 public class SkillsRepository implements Repository<SkillsDao> {
     private final DatabaseManagerConnector connector;
 
-    private static final String INSERT = "INSERT INTO goit_dev.skills (id, branch, skill_level) " +
+    private static final String INSERT = "INSERT INTO skills (id, branch, skill_level) " +
             "VALUES (?, ?, ?)";
     private static final String SELECT_BY_ID = "SELECT id, branch, skill_level " +
-            "FROM goit_dev.skills WHERE id = ?";
-    private static final String UPDATE_BY_ID = "UPDATE goit_dev.skills " +
+            "FROM skills WHERE id = ?";
+    private static final String UPDATE_BY_ID = "UPDATE skills " +
             "SET branch = ?, skill_level = ? WHERE id = ?;";
-    private static final String DELETE_BY_ID = "DELETE FROM goit_dev.skills WHERE id = ?;";
-    private static final String SELECT_ALL = "SELECT id, branch, skill_level FROM goit_dev.skills;";
+    private static final String DELETE_BY_ID = "DELETE FROM skills WHERE id = ?;";
+    private static final String SELECT_ALL = "SELECT id, branch, skill_level FROM skills;";
 
 
     public SkillsRepository(DatabaseManagerConnector connector) {
@@ -48,7 +48,7 @@ public class SkillsRepository implements Repository<SkillsDao> {
     }
 
     @Override
-    public void update(SkillsDao entity) {
+    public SkillsDao update(SkillsDao entity) {
         try (Connection connection = connector.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_BY_ID)) {
 
@@ -62,6 +62,7 @@ public class SkillsRepository implements Repository<SkillsDao> {
             e.printStackTrace();
             throw new RuntimeException("Skill is not updated");
         }
+        return entity;
     }
 
     @Override
@@ -79,7 +80,7 @@ public class SkillsRepository implements Repository<SkillsDao> {
 
     @Override
     public SkillsDao findById(Integer id) {
-        ResultSet resultSet = null;
+        ResultSet resultSet;
         try (Connection connection = connector.getConnection();
              PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID)) {
 
@@ -97,7 +98,7 @@ public class SkillsRepository implements Repository<SkillsDao> {
     @Override
     public List<SkillsDao> findAll() {
         List<SkillsDao> daoList = new ArrayList<>();
-        ResultSet resultSet = null;
+        ResultSet resultSet;
         try (Connection connection = connector.getConnection();
              PreparedStatement statement = connection.prepareStatement(SELECT_ALL)) {
 

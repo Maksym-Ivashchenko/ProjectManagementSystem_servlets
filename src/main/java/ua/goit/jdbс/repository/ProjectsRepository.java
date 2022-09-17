@@ -3,10 +3,7 @@ package ua.goit.jdbс.repository;
 import ua.goit.jdbс.config.DatabaseManagerConnector;
 import ua.goit.jdbс.dao.ProjectsDao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -14,28 +11,28 @@ import java.util.Objects;
 public class ProjectsRepository implements Repository<ProjectsDao> {
     private final DatabaseManagerConnector connector;
 
-    private static final String INSERT = "INSERT INTO goit_dev.projects (id, project_name, project_type, " +
-            "comments, cost) VALUES (?, ?, ?, ?, ?)";
+    private static final String INSERT = "INSERT INTO projects (project_name, project_type, " +
+            "comments, cost) VALUES (?, ?, ?, ?)";
     private static final String SELECT_BY_ID = "SELECT id, project_name, project_type, comments, cost " +
-            "FROM goit_dev.projects WHERE id = ?";
-    private static final String UPDATE_BY_ID = "UPDATE goit_dev.projects " +
+            "FROM projects WHERE id = ?";
+    private static final String UPDATE_BY_ID = "UPDATE projects " +
             "SET project_name = ?, project_type = ?, comments = ?, cost = ?" +
             "WHERE id = ?;";
-    private static final String DELETE_BY_ID = "DELETE FROM goit_dev.projects WHERE id = ?;";
+    private static final String DELETE_BY_ID = "DELETE FROM projects WHERE id = ?;";
     private static final String SELECT_ALL = "SELECT id, project_name, project_type, comments, cost " +
-            "FROM goit_dev.projects;";
-    private static final String SALARY_OF_ALL_DEVELOPERS = "SELECT sum(salary) FROM goit_dev.developers AS d\n" +
-            "JOIN goit_dev.developers_projects AS dp ON d.id = dp.developer_id\n" +
-            "JOIN goit_dev.projects AS p ON p.id = dp.project_id\n" +
+            "FROM projects;";
+    private static final String SALARY_OF_ALL_DEVELOPERS = "SELECT sum(salary) FROM developers AS d\n" +
+            "JOIN developers_projects AS dp ON d.id = dp.developer_id\n" +
+            "JOIN projects AS p ON p.id = dp.project_id\n" +
             "WHERE p.project_name = ?;";
-    private static final String LIST_OF_PROJECT_DEVELOPERS = "SELECT developer_name FROM goit_dev.developers AS d\n" +
-            "JOIN goit_dev.developers_projects AS dp ON d.id = dp.developer_id\n" +
-            "JOIN goit_dev.projects AS p ON p.id = dp.project_id\n" +
+    private static final String LIST_OF_PROJECT_DEVELOPERS = "SELECT developer_name FROM developers AS d\n" +
+            "JOIN developers_projects AS dp ON d.id = dp.developer_id\n" +
+            "JOIN projects AS p ON p.id = dp.project_id\n" +
             "WHERE p.project_name = ?;";
     private static final String LIST_OF_PROJECTS_IN_THE_FORMAT =
-            "SELECT p.date_created, p.project_name, COUNT(d.developer_name) FROM goit_dev.projects AS p\n" +
-            "JOIN goit_dev.developers_projects AS dp ON p.id = dp.project_id\n" +
-            "JOIN goit_dev.developers AS d ON d.id = dp.developer_id\n" +
+            "SELECT p.date_created, p.project_name, COUNT(d.developer_name) FROM projects AS p\n" +
+            "JOIN developers_projects AS dp ON p.id = dp.project_id\n" +
+            "JOIN developers AS d ON d.id = dp.developer_id\n" +
             "GROUP BY p.date_created, p.project_name\n" +
             "ORDER BY project_name;";
 
@@ -46,16 +43,21 @@ public class ProjectsRepository implements Repository<ProjectsDao> {
     @Override
     public ProjectsDao save(ProjectsDao entity) {
         try (Connection connection = connector.getConnection();
-             PreparedStatement statement = connection.prepareStatement(INSERT)) {
+             PreparedStatement statement = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
 
             statement.setInt(1, entity.getId());
             statement.setString(2, entity.getProjectName());
             statement.setString(3, entity.getProjectType());
             statement.setString(4, entity.getComments());
             statement.setInt(5, entity.getCost());
-
-            statement.execute();
-
+            statement.executeUpdate();
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    entity.setId(generatedKeys.getInt(1));
+                } else {
+                    throw new SQLException("Creating project failed, no ID obtained.");
+                }
+            }
         } catch (
                 SQLException e) {
             e.printStackTrace();
@@ -65,7 +67,7 @@ public class ProjectsRepository implements Repository<ProjectsDao> {
     }
 
     @Override
-    public void update(ProjectsDao entity) {
+    public ProjectsDao update(ProjectsDao entity) {
         try (Connection connection = connector.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_BY_ID)) {
 
@@ -81,6 +83,7 @@ public class ProjectsRepository implements Repository<ProjectsDao> {
             e.printStackTrace();
             throw new RuntimeException("Project is not updated");
         }
+        return entity;
     }
 
     @Override

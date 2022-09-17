@@ -14,16 +14,16 @@ import java.util.Objects;
 public class CustomersRepository implements Repository<CustomersDao> {
     private final DatabaseManagerConnector connector;
 
-    private static final String INSERT = "INSERT INTO goit_dev.customers (id, customer_name, country, email) " +
+    private static final String INSERT = "INSERT INTO customers (id, customer_name, country, email) " +
             "VALUES (?, ?, ?, ?)";
     private static final String SELECT_BY_ID = "SELECT id, customer_name, country, email " +
-            "FROM goit_dev.customers WHERE id = ?";
-    private static final String UPDATE_BY_ID = "UPDATE goit_dev.customers " +
+            "FROM customers WHERE id = ?";
+    private static final String UPDATE_BY_ID = "UPDATE customers " +
             "SET customer_name = ?, country = ?, email = ?" +
             "WHERE id = ?;";
-    private static final String DELETE_BY_ID = "DELETE FROM goit_dev.customers WHERE id = ?;";
+    private static final String DELETE_BY_ID = "DELETE FROM customers WHERE id = ?;";
     private static final String SELECT_ALL = "SELECT id, customer_name, country, email " +
-            "FROM goit_dev.customers;";
+            "FROM customers;";
 
 
     public CustomersRepository(DatabaseManagerConnector connector) {
@@ -51,7 +51,7 @@ public class CustomersRepository implements Repository<CustomersDao> {
     }
 
     @Override
-    public void update(CustomersDao entity) {
+    public CustomersDao update(CustomersDao entity) {
         try (Connection connection = connector.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_BY_ID)) {
 
@@ -66,6 +66,7 @@ public class CustomersRepository implements Repository<CustomersDao> {
             e.printStackTrace();
             throw new RuntimeException("Customer is not updated");
         }
+        return entity;
     }
 
     @Override

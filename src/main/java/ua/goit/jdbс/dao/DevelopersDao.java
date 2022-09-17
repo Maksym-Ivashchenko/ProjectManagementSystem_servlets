@@ -1,7 +1,5 @@
 package ua.goit.jdbс.dao;
 
-import java.util.Date;
-
 public class DevelopersDao {
     Integer id;
     String developerName;
@@ -16,6 +14,14 @@ public class DevelopersDao {
     public DevelopersDao(Integer id, String developerName, Integer age, String gender,
                          String different, Integer salary) {
         this.id = id;
+        this.developerName = developerName;
+        this.age = age;
+        this.gender = gender;
+        this.different = different;
+        this.salary = salary;
+    }
+
+    public DevelopersDao(String developerName, Integer age, String gender, String different, Integer salary) {
         this.developerName = developerName;
         this.age = age;
         this.gender = gender;

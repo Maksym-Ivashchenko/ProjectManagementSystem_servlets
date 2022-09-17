@@ -3,10 +3,7 @@ package ua.goit.jdbс.repository;
 import ua.goit.jdbс.config.DatabaseManagerConnector;
 import ua.goit.jdbс.dao.DevelopersDao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -14,25 +11,25 @@ import java.util.Objects;
 public class DevelopersRepository implements Repository<DevelopersDao> {
     private final DatabaseManagerConnector connector;
 
-    private static final String INSERT = "INSERT INTO goit_dev.developers (id, developer_name, age, gender, " +
-            "different, salary) VALUES (?, ?, ?, ?, ?, ?);";
+    private static final String INSERT = "INSERT INTO developers (developer_name, age, gender, " +
+            "different, salary) VALUES (?, ?, ?, ?, ?);";
     private static final String SELECT_BY_ID = "SELECT id, developer_name, age, gender, different, salary " +
-            "FROM goit_dev.developers WHERE id = ?;";
-    private static final String UPDATE_BY_ID = "UPDATE goit_dev.developers " +
+            "FROM developers WHERE id = ?;";
+    private static final String UPDATE_BY_ID = "UPDATE developers " +
             "SET developer_name = ?, age = ?, gender = ?, different = ?, salary = ?" +
             "WHERE id = ?;";
-    private static final String DELETE_BY_ID = "DELETE FROM goit_dev.developers WHERE id = ?;";
+    private static final String DELETE_BY_ID = "DELETE FROM developers WHERE id = ?;";
     private static final String SELECT_ALL = "SELECT id, developer_name, age, gender, different, salary " +
-            "FROM goit_dev.developers;";
+            "FROM developers;";
     private static final String LIST_OF_ALL_DEVELOPERS_BY_BRANCH =
-            "SELECT developer_name FROM goit_dev.developers AS d\n" +
-            "JOIN goit_dev.developers_skills AS ds ON d.id = ds.developer_id\n" +
-            "JOIN goit_dev.skills AS s ON s.id = ds.skill_id\n" +
+            "SELECT developer_name FROM developers AS d\n" +
+            "JOIN developers_skills AS ds ON d.id = ds.developer_id\n" +
+            "JOIN skills AS s ON s.id = ds.skill_id\n" +
             "WHERE s.branch = ?;";
     private static final String LIST_OF_ALL_DEVELOPERS_BY_SKILL_LEVEL =
-            "SELECT developer_name FROM goit_dev.developers AS d\n" +
-                    "JOIN goit_dev.developers_skills AS ds ON d.id = ds.developer_id\n" +
-                    "JOIN goit_dev.skills AS s ON s.id = ds.skill_id\n" +
+            "SELECT developer_name FROM developers AS d\n" +
+                    "JOIN developers_skills AS ds ON d.id = ds.developer_id\n" +
+                    "JOIN skills AS s ON s.id = ds.skill_id\n" +
                     "WHERE s.skill_level = ?;";
 
     public DevelopersRepository(DatabaseManagerConnector connector) {
@@ -42,17 +39,21 @@ public class DevelopersRepository implements Repository<DevelopersDao> {
     @Override
     public DevelopersDao save(DevelopersDao entity) {
         try (Connection connection = connector.getConnection();
-             PreparedStatement statement = connection.prepareStatement(INSERT)) {
+             PreparedStatement statement = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
 
-            statement.setInt(1, entity.getId());
-            statement.setString(2, entity.getDeveloperName());
-            statement.setInt(3, entity.getAge());
-            statement.setString(4, entity.getGender());
-            statement.setString(5, entity.getDifferent());
-            statement.setInt(6, entity.getSalary());
-
-            statement.execute();
-
+            statement.setString(1, entity.getDeveloperName());
+            statement.setInt(2, entity.getAge());
+            statement.setString(3, entity.getGender());
+            statement.setString(4, entity.getDifferent());
+            statement.setInt(5, entity.getSalary());
+            statement.executeUpdate();
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    entity.setId(generatedKeys.getInt(1));
+                } else {
+                    throw new SQLException("Creating developer failed, no ID obtained.");
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException("Developer is not created");
@@ -61,7 +62,7 @@ public class DevelopersRepository implements Repository<DevelopersDao> {
     }
 
     @Override
-    public void update(DevelopersDao entity) {
+    public DevelopersDao update(DevelopersDao entity) {
         try (Connection connection = connector.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_BY_ID)) {
 
@@ -78,6 +79,7 @@ public class DevelopersRepository implements Repository<DevelopersDao> {
             e.printStackTrace();
             throw new RuntimeException("Developer is not updated");
         }
+        return entity;
     }
 
     @Override

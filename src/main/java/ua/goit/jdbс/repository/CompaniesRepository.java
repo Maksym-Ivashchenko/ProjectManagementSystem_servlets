@@ -14,16 +14,16 @@ import java.util.Objects;
 public class CompaniesRepository implements Repository<CompaniesDao> {
     private final DatabaseManagerConnector connector;
 
-    private static final String INSERT = "INSERT INTO goit_dev.companies (id, company_name, city, email) " +
+    private static final String INSERT = "INSERT INTO companies (id, company_name, city, email) " +
             "VALUES (?, ?, ?, ?)";
     private static final String SELECT_BY_ID = "SELECT id, company_name, city, email " +
-            "FROM goit_dev.companies WHERE id = ?";
-    private static final String UPDATE_BY_ID = "UPDATE goit_dev.companies " +
+            "FROM companies WHERE id = ?";
+    private static final String UPDATE_BY_ID = "UPDATE companies " +
             "SET company_name = ?, city = ?, email = ?" +
             "WHERE id = ?;";
-    private static final String DELETE_BY_ID = "DELETE FROM goit_dev.companies WHERE id = ?;";
+    private static final String DELETE_BY_ID = "DELETE FROM companies WHERE id = ?;";
     private static final String SELECT_ALL = "SELECT id, company_name, city, email " +
-            "FROM goit_dev.companies;";
+            "FROM companies;";
 
     public CompaniesRepository(DatabaseManagerConnector connector) {
         this.connector = connector;
@@ -50,7 +50,7 @@ public class CompaniesRepository implements Repository<CompaniesDao> {
     }
 
     @Override
-    public void update(CompaniesDao entity) {
+    public CompaniesDao update(CompaniesDao entity) {
         try (Connection connection = connector.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_BY_ID)) {
 
@@ -65,6 +65,7 @@ public class CompaniesRepository implements Repository<CompaniesDao> {
             e.printStackTrace();
             throw new RuntimeException("Company is not updated");
         }
+        return entity;
     }
 
     @Override
