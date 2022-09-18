@@ -31,7 +31,7 @@ public class UpdateSkill implements Command {
         while (true) {
             try {
                 SkillsDto skill = new SkillsDto(id, branch, skillLevel);
-                skillsService.save(skill);
+                skillsService.update(skill);
                 break;
             } catch (SkillAlreadyExistException exception) {
                 view.write(exception.getMessage());
