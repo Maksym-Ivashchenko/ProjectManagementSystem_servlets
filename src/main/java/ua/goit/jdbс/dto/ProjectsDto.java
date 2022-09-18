@@ -1,21 +1,33 @@
 package ua.goit.jdbс.dto;
 
+import java.time.LocalDate;
+
 public class ProjectsDto {
     Integer id;
     String projectName;
     String projectType;
     String comments;
     Integer cost;
+    LocalDate dateCreated;
 
     public ProjectsDto() {
     }
 
-    public ProjectsDto(Integer id, String projectName, String projectType, String comments, Integer cost) {
+    public ProjectsDto(Integer id, String projectName, String projectType, String comments, Integer cost, LocalDate dateCreated) {
         this.id = id;
         this.projectName = projectName;
         this.projectType = projectType;
         this.comments = comments;
         this.cost = cost;
+        this.dateCreated = dateCreated;
+    }
+
+    public ProjectsDto(String projectName, String projectType, String comments, Integer cost, LocalDate dateCreated) {
+        this.projectName = projectName;
+        this.projectType = projectType;
+        this.comments = comments;
+        this.cost = cost;
+        this.dateCreated = dateCreated;
     }
 
     public Integer getId() {
@@ -56,5 +68,25 @@ public class ProjectsDto {
 
     public void setCost(Integer cost) {
         this.cost = cost;
+    }
+
+    public LocalDate getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(LocalDate dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    @Override
+    public String toString() {
+        return "ProjectsDto{" +
+                "id=" + id +
+                ", projectName='" + projectName + '\'' +
+                ", projectType='" + projectType + '\'' +
+                ", comments='" + comments + '\'' +
+                ", cost=" + cost +
+                ", dateCreated=" + dateCreated +
+                '}';
     }
 }

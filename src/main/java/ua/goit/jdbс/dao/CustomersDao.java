@@ -16,6 +16,12 @@ public class CustomersDao {
         this.email = email;
     }
 
+    public CustomersDao(String customerName, String country, String email) {
+        this.customerName = customerName;
+        this.country = country;
+        this.email = email;
+    }
+
     public Integer getId() {
         return id;
     }

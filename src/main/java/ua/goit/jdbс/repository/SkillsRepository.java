@@ -3,10 +3,7 @@ package ua.goit.jdbс.repository;
 import ua.goit.jdbс.config.DatabaseManagerConnector;
 import ua.goit.jdbс.dao.SkillsDao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -14,8 +11,8 @@ import java.util.Objects;
 public class SkillsRepository implements Repository<SkillsDao> {
     private final DatabaseManagerConnector connector;
 
-    private static final String INSERT = "INSERT INTO skills (id, branch, skill_level) " +
-            "VALUES (?, ?, ?)";
+    private static final String INSERT = "INSERT INTO skills (branch, skill_level) " +
+            "VALUES (?, ?)";
     private static final String SELECT_BY_ID = "SELECT id, branch, skill_level " +
             "FROM skills WHERE id = ?";
     private static final String UPDATE_BY_ID = "UPDATE skills " +
@@ -31,14 +28,19 @@ public class SkillsRepository implements Repository<SkillsDao> {
     @Override
     public SkillsDao save(SkillsDao entity) {
         try (Connection connection = connector.getConnection();
-             PreparedStatement statement = connection.prepareStatement(INSERT)) {
+             PreparedStatement statement = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
 
-            statement.setInt(1, entity.getId());
-            statement.setString(2, entity.getBranch());
-            statement.setString(3, entity.getSkillLevel());
+            statement.setString(1, entity.getBranch());
+            statement.setString(2, entity.getSkillLevel());
 
-            statement.execute();
-
+            statement.executeUpdate();
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    entity.setId(generatedKeys.getInt(1));
+                } else {
+                    throw new SQLException("Creating skill failed, no ID obtained.");
+                }
+            }
         } catch (
                 SQLException e) {
             e.printStackTrace();

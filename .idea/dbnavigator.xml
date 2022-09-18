@@ -35,9 +35,7 @@
       <console name="go_it_dev" type="STANDARD" schema="goit_dev" session="Main"><![CDATA[SELECT id, developer_name, age, gender, different, salary 
 FROM developers;
 
-select * from projects; 
-
-DROP TABLE test_table;
+select * from skills; 
 
 1
 SELECT sum(salary) FROM developers AS d

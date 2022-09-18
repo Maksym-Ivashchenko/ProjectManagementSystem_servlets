@@ -7,23 +7,25 @@ import ua.goit.jdbс.view.View;
 
 import java.time.LocalDate;
 
-public class AddProject implements Command {
-    public static final String ADD_PROJECT = "add_project";
+public class UpdateProject implements Command {
+    public static final String UPDATE_PROJECT = "update_project";
     private final View view;
     private final ProjectsService projectsService;
 
-    public AddProject(View view, ProjectsService projectsService) {
+    public UpdateProject(View view, ProjectsService projectsService) {
         this.view = view;
         this.projectsService = projectsService;
     }
 
     @Override
     public boolean canExecute(String input) {
-        return input.equals(ADD_PROJECT);
+        return input.equals(UPDATE_PROJECT);
     }
 
     @Override
     public void execute() {
+        view.write("Enter ID by project: ");
+        int id = Integer.parseInt(view.read());
         view.write("Enter project name: ");
         String name = view.read();
         view.write("Enter project type: ");
@@ -52,13 +54,13 @@ public class AddProject implements Command {
         }
         while (true) {
             try {
-                ProjectsDto project = new ProjectsDto(name, projectType, comments, cost, dateCreated);
-                projectsService.save(project);
+                ProjectsDto project = new ProjectsDto(id, name, projectType, comments, cost, dateCreated);
+                projectsService.update(project);
                 break;
             } catch (ProjectAlreadyExistException exception) {
                 view.write(exception.getMessage());
             }
         }
-        view.write("Project added. Thank you!");
+        view.write("Project updated. Thank you!");
     }
 }

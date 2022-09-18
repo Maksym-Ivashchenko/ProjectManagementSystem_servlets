@@ -12,14 +12,14 @@ public class ProjectsRepository implements Repository<ProjectsDao> {
     private final DatabaseManagerConnector connector;
 
     private static final String INSERT = "INSERT INTO projects (project_name, project_type, " +
-            "comments, cost) VALUES (?, ?, ?, ?)";
-    private static final String SELECT_BY_ID = "SELECT id, project_name, project_type, comments, cost " +
+            "comments, cost, date_created) VALUES (?, ?, ?, ?, ?)";
+    private static final String SELECT_BY_ID = "SELECT id, project_name, project_type, comments, cost, date_created " +
             "FROM projects WHERE id = ?";
     private static final String UPDATE_BY_ID = "UPDATE projects " +
-            "SET project_name = ?, project_type = ?, comments = ?, cost = ?" +
+            "SET project_name = ?, project_type = ?, comments = ?, cost = ?, date_created = ?" +
             "WHERE id = ?;";
     private static final String DELETE_BY_ID = "DELETE FROM projects WHERE id = ?;";
-    private static final String SELECT_ALL = "SELECT id, project_name, project_type, comments, cost " +
+    private static final String SELECT_ALL = "SELECT id, project_name, project_type, comments, cost, date_created " +
             "FROM projects;";
     private static final String SALARY_OF_ALL_DEVELOPERS = "SELECT sum(salary) FROM developers AS d\n" +
             "JOIN developers_projects AS dp ON d.id = dp.developer_id\n" +
@@ -35,6 +35,7 @@ public class ProjectsRepository implements Repository<ProjectsDao> {
             "JOIN developers AS d ON d.id = dp.developer_id\n" +
             "GROUP BY p.date_created, p.project_name\n" +
             "ORDER BY project_name;";
+    private static final String LIST_OF_PROJECTS_NAMES = "SELECT project_name FROM projects;";
 
     public ProjectsRepository(DatabaseManagerConnector connector) {
         this.connector = connector;
@@ -45,11 +46,11 @@ public class ProjectsRepository implements Repository<ProjectsDao> {
         try (Connection connection = connector.getConnection();
              PreparedStatement statement = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
 
-            statement.setInt(1, entity.getId());
-            statement.setString(2, entity.getProjectName());
-            statement.setString(3, entity.getProjectType());
-            statement.setString(4, entity.getComments());
-            statement.setInt(5, entity.getCost());
+            statement.setString(1, entity.getProjectName());
+            statement.setString(2, entity.getProjectType());
+            statement.setString(3, entity.getComments());
+            statement.setInt(4, entity.getCost());
+            statement.setDate(5, Date.valueOf(entity.getDateCreated()));
             statement.executeUpdate();
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
@@ -70,12 +71,12 @@ public class ProjectsRepository implements Repository<ProjectsDao> {
     public ProjectsDao update(ProjectsDao entity) {
         try (Connection connection = connector.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_BY_ID)) {
-
             statement.setString(1, entity.getProjectName());
             statement.setString(2, entity.getProjectType());
             statement.setString(3, entity.getComments());
             statement.setInt(4, entity.getCost());
-            statement.setInt(5, entity.getId());
+            statement.setDate(5, Date.valueOf(entity.getDateCreated()));
+            statement.setInt(6, entity.getId());
 
             statement.executeUpdate();
 
@@ -193,6 +194,21 @@ public class ProjectsRepository implements Repository<ProjectsDao> {
         return results;
     }
 
+    public List<String> getListOfProjectsNames() {
+        List<String> results = new ArrayList<>();
+        ResultSet resultSet;
+        try (Connection connection = connector.getConnection();
+             PreparedStatement statement = connection.prepareStatement(LIST_OF_PROJECTS_NAMES)) {
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                results.add(resultSet.getString("project_name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Request failed!");
+        }
+        return results;
+    }
 
     private ProjectsDao convert(ResultSet resultSet) throws SQLException {
         ProjectsDao projectsDao = new ProjectsDao();
@@ -208,5 +224,6 @@ public class ProjectsRepository implements Repository<ProjectsDao> {
         projectsDao.setProjectType(resultSet.getString("project_type"));
         projectsDao.setComments(resultSet.getString("comments"));
         projectsDao.setCost(resultSet.getInt("cost"));
+        projectsDao.setDateCreated(resultSet.getDate("date_created").toLocalDate());
     }
 }

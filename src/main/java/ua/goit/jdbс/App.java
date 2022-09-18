@@ -5,10 +5,9 @@ import ua.goit.jdbс.commands.*;
 import ua.goit.jdbс.config.DatabaseManagerConnector;
 import ua.goit.jdbс.config.PropertiesConfig;
 import ua.goit.jdbс.controller.Controller;
-import ua.goit.jdbс.repository.DevelopersRepository;
-import ua.goit.jdbс.repository.ProjectsRepository;
-import ua.goit.jdbс.service.DevelopersService;
-import ua.goit.jdbс.service.convert.DevelopersConverter;
+import ua.goit.jdbс.repository.*;
+import ua.goit.jdbс.service.*;
+import ua.goit.jdbс.service.convert.*;
 import ua.goit.jdbс.view.Console;
 import ua.goit.jdbс.view.View;
 
@@ -25,15 +24,25 @@ public class App {
         PropertiesConfig propertiesConfig = new PropertiesConfig();
         Properties properties = propertiesConfig.loadProperties("application.properties");
 
-        DatabaseManagerConnector dbManager = new DatabaseManagerConnector(properties, dbUsername,dbPassword);
+        DatabaseManagerConnector dbManager = new DatabaseManagerConnector(properties, dbUsername, dbPassword);
         Scanner scanner = new Scanner(System.in);
         View view = new Console(scanner);
 
         DevelopersRepository developersRepository = new DevelopersRepository(dbManager);
         DevelopersConverter developersConverter = new DevelopersConverter();
         DevelopersService developersService = new DevelopersService(developersRepository, developersConverter);
-
-//        ProjectsRepository projectsRepository = new ProjectsRepository(dbManager);
+        ProjectsRepository projectsRepository = new ProjectsRepository(dbManager);
+        ProjectsConverter projectsConverter = new ProjectsConverter();
+        ProjectsService projectsService = new ProjectsService(projectsRepository, projectsConverter);
+        CompaniesRepository companiesRepository = new CompaniesRepository(dbManager);
+        CompaniesConverter companiesConverter = new CompaniesConverter();
+        CompaniesService companiesService = new CompaniesService(companiesRepository, companiesConverter);
+        CustomersRepository customersRepository = new CustomersRepository(dbManager);
+        CustomersConverter customersConverter = new CustomersConverter();
+        CustomersService customersService = new CustomersService(customersRepository, customersConverter);
+        SkillsRepository skillsRepository = new SkillsRepository(dbManager);
+        SkillsConverter skillsConverter = new SkillsConverter();
+        SkillsService skillsService = new SkillsService(skillsRepository, skillsConverter);
 
         List<Command> commands = new ArrayList<>();
         commands.add(new Help(view));
@@ -42,50 +51,31 @@ public class App {
         commands.add(new UpdateDeveloper(view, developersService));
         commands.add(new DeleteDeveloper(view, developersService));
         commands.add(new FindDeveloper(view, developersService));
-
+        commands.add(new AddProject(view, projectsService));
+        commands.add(new UpdateProject(view, projectsService));
+        commands.add(new DeleteProject(view, projectsService));
+        commands.add(new FindProject(view, projectsService));
+        commands.add(new AddCompany(view, companiesService));
+        commands.add(new UpdateCompany(view, companiesService));
+        commands.add(new DeleteCompany(view, companiesService));
+        commands.add(new FindCompany(view, companiesService));
+        commands.add(new AddCustomer(view, customersService));
+        commands.add(new UpdateCustomer(view, customersService));
+        commands.add(new DeleteCustomer(view, customersService));
+        commands.add(new FindCustomer(view, customersService));
+        commands.add(new AddSkill(view, skillsService));
+        commands.add(new UpdateSkill(view, skillsService));
+        commands.add(new DeleteSkill(view, skillsService));
+        commands.add(new FindSkill(view, skillsService));
+        commands.add(new Task1(view, projectsService));
+        commands.add(new Task2(view, projectsService));
         commands.add(new Task3(view, developersService));
         commands.add(new Task4(view, developersService));
+        commands.add(new Task5(view, projectsService));
 
         Controller controller = new Controller(view, commands);
 
         controller.run();
 
-
-//        String projectName = "Project_3";
-//        String skillBranch = "Java";
-//        String skillLevel = "Middle";
-//
-//
-//        Integer project = projectsRepository.getSalaryOfAllDevelopersFromProject(projectName);
-//        System.out.println("Salary of all developers from " + projectName + ": " + project + "$");
-//
-//        List<String> projectDevelopers = projectsRepository.getListOfProjectDevelopers(projectName);
-//        System.out.println("Developers name from " + projectName + " " + projectDevelopers);
-//
-//        List<String> developersByBranch = developersRepository.getListOfAllDevelopersByBranch(skillBranch);
-//        System.out.println("Developers by " + skillBranch + " " + developersByBranch);
-//
-//        List<String> developersBySkillLevel = developersRepository.getListOfAllDevelopersBySkillLevel(skillLevel);
-//        System.out.println("Developers by " + skillLevel + " " + developersBySkillLevel);
-//
-//        List<String> listOfProjectsInTheFormat = projectsRepository.getListOfProjectsInTheFormat();
-//        System.out.println(listOfProjectsInTheFormat);
-//
-//
-//        DevelopersDao developer = new DevelopersDao();
-//        developer.setId(11);
-//        developer.setDeveloperName("Maksim");
-//        developer.setAge(36);
-//        developer.setGender("men");
-//        developer.setDifferent("maksim@mail.com");
-//        developer.setSalary(3000);
-//
-//        developersRepository.save(developer);
-//        DevelopersDao savedDeveloper = developersRepository.findById(11);
-//        System.out.println(savedDeveloper);
-//        developersRepository.update(developer);
-//        developersRepository.delete(developer);
-//        List<DevelopersDao> all = developersRepository.findAll();
-//        System.out.println(all);
     }
 }

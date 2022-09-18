@@ -3,10 +3,7 @@ package ua.goit.jdbс.repository;
 import ua.goit.jdbс.config.DatabaseManagerConnector;
 import ua.goit.jdbс.dao.CompaniesDao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -14,8 +11,8 @@ import java.util.Objects;
 public class CompaniesRepository implements Repository<CompaniesDao> {
     private final DatabaseManagerConnector connector;
 
-    private static final String INSERT = "INSERT INTO companies (id, company_name, city, email) " +
-            "VALUES (?, ?, ?, ?)";
+    private static final String INSERT = "INSERT INTO companies (company_name, city, email) " +
+            "VALUES (?, ?, ?)";
     private static final String SELECT_BY_ID = "SELECT id, company_name, city, email " +
             "FROM companies WHERE id = ?";
     private static final String UPDATE_BY_ID = "UPDATE companies " +
@@ -32,15 +29,20 @@ public class CompaniesRepository implements Repository<CompaniesDao> {
     @Override
     public CompaniesDao save(CompaniesDao entity) {
         try (Connection connection = connector.getConnection();
-                PreparedStatement statement = connection.prepareStatement(INSERT)) {
+                PreparedStatement statement = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
 
-            statement.setInt(1, entity.getId());
-            statement.setString(2, entity.getCompanyName());
-            statement.setString(3, entity.getCity());
-            statement.setString(4, entity.getEmail());
+            statement.setString(1, entity.getCompanyName());
+            statement.setString(2, entity.getCity());
+            statement.setString(3, entity.getEmail());
 
-            statement.execute();
-
+            statement.executeUpdate();
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    entity.setId(generatedKeys.getInt(1));
+                } else {
+                    throw new SQLException("Creating company failed, no ID obtained.");
+                }
+            }
         } catch (
                 SQLException e) {
             e.printStackTrace();

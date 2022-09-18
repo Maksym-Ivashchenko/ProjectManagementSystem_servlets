@@ -8,15 +8,16 @@ import ua.goit.jdbс.service.convert.DevelopersConverter;
 
 import java.util.List;
 
-public class DevelopersService {
-    private DevelopersRepository developersRepository;
-    private DevelopersConverter developersConverter;
+public class DevelopersService implements Service<DevelopersDto> {
+    private final DevelopersRepository developersRepository;
+    private final DevelopersConverter developersConverter;
 
     public DevelopersService(DevelopersRepository developersRepository, DevelopersConverter developersConverter) {
         this.developersRepository = developersRepository;
         this.developersConverter = developersConverter;
     }
 
+    @Override
     public DevelopersDto save(DevelopersDto dto) {
         DevelopersDao savedDeveloper = developersRepository.save(developersConverter.to(dto));
         DevelopersDto developersDto = developersConverter.from(savedDeveloper);
@@ -24,15 +25,18 @@ public class DevelopersService {
         return developersDto;
     }
 
+    @Override
     public DevelopersDto update(DevelopersDto dto) {
         DevelopersDao dao = developersRepository.update(developersConverter.to(dto));
         return developersConverter.from(dao);
     }
 
+    @Override
     public void delete(DevelopersDto dto) {
         developersRepository.delete(developersConverter.to(dto));
     }
 
+    @Override
     public DevelopersDto findById(Integer id) {
         DevelopersDao byId = developersRepository.findById(id);
         return developersConverter.from(byId);

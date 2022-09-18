@@ -16,6 +16,12 @@ public class CompaniesDao {
         this.email = email;
     }
 
+    public CompaniesDao(String companyName, String city, String email) {
+        this.companyName = companyName;
+        this.city = city;
+        this.email = email;
+    }
+
     public Integer getId() {
         return id;
     }

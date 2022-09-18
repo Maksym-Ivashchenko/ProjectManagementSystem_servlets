@@ -1,21 +1,33 @@
 package ua.goit.jdbс.dao;
 
+import java.time.LocalDate;
+
 public class ProjectsDao {
     Integer id;
     String projectName;
     String projectType;
     String comments;
     Integer cost;
+    LocalDate dateCreated;
 
     public ProjectsDao() {
     }
 
-    public ProjectsDao(Integer id, String projectName, String projectType, String comments, Integer cost) {
+    public ProjectsDao(Integer id, String projectName, String projectType, String comments, Integer cost, LocalDate dateCreated) {
         this.id = id;
         this.projectName = projectName;
         this.projectType = projectType;
         this.comments = comments;
         this.cost = cost;
+        this.dateCreated = dateCreated;
+    }
+
+    public ProjectsDao(String projectName, String projectType, String comments, Integer cost, LocalDate dateCreated) {
+        this.projectName = projectName;
+        this.projectType = projectType;
+        this.comments = comments;
+        this.cost = cost;
+        this.dateCreated = dateCreated;
     }
 
     public Integer getId() {
@@ -58,6 +70,14 @@ public class ProjectsDao {
         this.cost = cost;
     }
 
+    public LocalDate getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(LocalDate dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
     @Override
     public String toString() {
         return "ProjectsDao{" +
@@ -66,6 +86,7 @@ public class ProjectsDao {
                 ", projectType='" + projectType + '\'' +
                 ", comments='" + comments + '\'' +
                 ", cost=" + cost +
+                ", dateCreated=" + dateCreated +
                 '}';
     }
 }

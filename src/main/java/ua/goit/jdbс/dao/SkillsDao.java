@@ -14,6 +14,11 @@ public class SkillsDao {
         this.skillLevel = skillLevel;
     }
 
+    public SkillsDao(String branch, String skillLevel) {
+        this.branch = branch;
+        this.skillLevel = skillLevel;
+    }
+
     public Integer getId() {
         return id;
     }

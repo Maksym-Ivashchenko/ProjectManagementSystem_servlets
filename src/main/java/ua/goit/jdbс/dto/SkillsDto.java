@@ -14,6 +14,11 @@ public class SkillsDto {
         this.skillLevel = skillLevel;
     }
 
+    public SkillsDto(String branch, String skillLevel) {
+        this.branch = branch;
+        this.skillLevel = skillLevel;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -36,5 +41,14 @@ public class SkillsDto {
 
     public void setSkillLevel(String skillLevel) {
         this.skillLevel = skillLevel;
+    }
+
+    @Override
+    public String toString() {
+        return "SkillsDto{" +
+                "id=" + id +
+                ", branch='" + branch + '\'' +
+                ", skillLevel='" + skillLevel + '\'' +
+                '}';
     }
 }

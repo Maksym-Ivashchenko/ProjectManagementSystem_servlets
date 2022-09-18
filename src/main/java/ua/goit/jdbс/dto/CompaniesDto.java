@@ -16,6 +16,12 @@ public class CompaniesDto {
         this.email = email;
     }
 
+    public CompaniesDto(String companyName, String city, String email) {
+        this.companyName = companyName;
+        this.city = city;
+        this.email = email;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -46,5 +52,15 @@ public class CompaniesDto {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "CompaniesDto{" +
+                "id=" + id +
+                ", companyName='" + companyName + '\'' +
+                ", city='" + city + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

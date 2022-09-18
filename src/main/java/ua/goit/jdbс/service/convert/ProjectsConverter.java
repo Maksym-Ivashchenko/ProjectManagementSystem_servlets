@@ -12,6 +12,7 @@ public class ProjectsConverter implements Converter<ProjectsDto, ProjectsDao> {
         dto.setProjectType(entity.getProjectType());
         dto.setComments(entity.getComments());
         dto.setCost(entity.getCost());
+        dto.setDateCreated(entity.getDateCreated());
         return dto;
     }
 
@@ -23,6 +24,7 @@ public class ProjectsConverter implements Converter<ProjectsDto, ProjectsDao> {
         dao.setProjectType(entity.getProjectType());
         dao.setComments(entity.getComments());
         dao.setCost(entity.getCost());
+        dao.setDateCreated(entity.getDateCreated());
         return dao;
     }
 }
