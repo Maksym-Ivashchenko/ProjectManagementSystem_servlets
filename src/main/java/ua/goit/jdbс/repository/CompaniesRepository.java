@@ -21,7 +21,7 @@ public class CompaniesRepository implements Repository<CompaniesDao> {
     private static final String DELETE_BY_ID = "DELETE FROM companies WHERE id = ?;";
     private static final String SELECT_ALL = "SELECT id, company_name, city, email " +
             "FROM companies;";
-
+    private static final String COUNT_OF_COLUMN = "SELECT * FROM companies;";
     public CompaniesRepository(DatabaseManagerConnector connector) {
         this.connector = connector;
     }
@@ -118,6 +118,19 @@ public class CompaniesRepository implements Repository<CompaniesDao> {
             throw new RuntimeException("Companies not found");
         }
         return daoList;
+    }
+
+    public int getCountOfColumn() {
+        int numOfCol=0;
+        try(Connection connection = connector.getConnection();
+        PreparedStatement statement = connection.prepareStatement(COUNT_OF_COLUMN)) {
+            ResultSet rs = statement.executeQuery();
+            ResultSetMetaData metaData = rs.getMetaData();
+            numOfCol=metaData.getColumnCount();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return numOfCol;
     }
 
     private CompaniesDao convert(ResultSet resultSet) throws SQLException {

@@ -50,6 +50,10 @@ public class DevelopersService implements Service<DevelopersDto> {
         return developersRepository.getListOfAllDevelopersBySkillLevel(skillLevel);
     }
 
+    public int getCountOfColumn() {
+        return developersRepository.getCountOfColumn();
+    }
+
     private void validateDeveloper(DevelopersDto savedDeveloper, DevelopersDto newDeveloper) {
         if(!savedDeveloper.getDeveloperName().equals(newDeveloper.getDeveloperName()) ||
                 !savedDeveloper.getAge().equals(newDeveloper.getAge())) {

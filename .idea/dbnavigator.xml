@@ -35,8 +35,15 @@
       <console name="go_it_dev" type="STANDARD" schema="goit_dev" session="Main"><![CDATA[SELECT id, developer_name, age, gender, different, salary 
 FROM developers;
 
-select * from skills; 
+select * from developers; 
 
+INSERT INTO skills
+	(skill_level, branch)
+VALUES
+	('Project_', 'Java'),
+    ('Project', 'JavaScript'),
+    ('Projec', 'C++'),
+    ('Proje', 'Java');
 1
 SELECT sum(salary) FROM developers AS d
 JOIN developers_projects AS dp ON d.id = dp.developer_id

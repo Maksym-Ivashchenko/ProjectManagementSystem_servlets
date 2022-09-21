@@ -21,7 +21,7 @@ public class CustomersRepository implements Repository<CustomersDao> {
     private static final String DELETE_BY_ID = "DELETE FROM customers WHERE id = ?;";
     private static final String SELECT_ALL = "SELECT id, customer_name, country, email " +
             "FROM customers;";
-
+    private static final String COUNT_OF_COLUMN = "SELECT * FROM customers;";
 
     public CustomersRepository(DatabaseManagerConnector connector) {
         this.connector = connector;
@@ -120,6 +120,19 @@ public class CustomersRepository implements Repository<CustomersDao> {
             throw new RuntimeException("Customers not found");
         }
         return daoList;
+    }
+
+    public int getCountOfColumn() {
+        int numOfCol = 0;
+        try (Connection connection = connector.getConnection();
+             PreparedStatement statement = connection.prepareStatement(COUNT_OF_COLUMN)) {
+            ResultSet rs = statement.executeQuery();
+            ResultSetMetaData metaData = rs.getMetaData();
+            numOfCol = metaData.getColumnCount();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return numOfCol;
     }
 
     private CustomersDao convert(ResultSet resultSet) throws SQLException {

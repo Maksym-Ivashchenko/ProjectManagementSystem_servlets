@@ -31,6 +31,7 @@ public class DevelopersRepository implements Repository<DevelopersDao> {
                     "JOIN developers_skills AS ds ON d.id = ds.developer_id\n" +
                     "JOIN skills AS s ON s.id = ds.skill_id\n" +
                     "WHERE s.skill_level = ?;";
+    private static final String COUNT_OF_COLUMN = "SELECT * FROM developers;";
 
     public DevelopersRepository(DatabaseManagerConnector connector) {
         this.connector = connector;
@@ -169,6 +170,18 @@ public class DevelopersRepository implements Repository<DevelopersDao> {
         return daoList;
     }
 
+    public int getCountOfColumn() {
+        int numOfCol = 0;
+        try (Connection connection = connector.getConnection();
+             PreparedStatement statement = connection.prepareStatement(COUNT_OF_COLUMN)) {
+            ResultSet rs = statement.executeQuery();
+            ResultSetMetaData metaData = rs.getMetaData();
+            numOfCol = metaData.getColumnCount();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return numOfCol;
+    }
 
     private void setParameters(ResultSet resultSet, DevelopersDao developersDao) throws SQLException {
         developersDao.setId(resultSet.getInt("id"));

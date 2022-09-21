@@ -22,42 +22,51 @@ public class AddDeveloper implements Command {
 
     @Override
     public void execute() {
-        view.write("Enter developer name: ");
-        String name = view.read();
+        view.write("Enter developer name, age, gender, email and salary separated by a '/': ");
+        String[] developerColumns = view.read().split("/");
+        String name;
         int age = -1;
-        while (true) {
-            try {
-                view.write("Enter age: ");
-                age = Integer.parseInt(view.read());
-                break;
-            } catch (NumberFormatException e) {
-                view.write("Invalid value. Use digits");
-            }
-        }
-        view.write("Enter gender: ");
-        String gender = view.read();
-        view.write("Enter additional information (e.g. email)");
-        String different = view.read();
+        String gender;
+        String different;
         int salary = -1;
-        while (true) {
+        if (developerColumns.length == developersService.getCountOfColumn() - 1) {
+            for (int i = 0; i <= developerColumns.length - 1; i++) {
+                String s = developerColumns[i].replace(",", "").strip();
+                developerColumns[i] = s;
+            }
+            name = developerColumns[0];
             try {
-                view.write("Enter salary: ");
-                salary = Integer.parseInt(view.read());
-                break;
+                age = Integer.parseInt(developerColumns[1]);
             } catch (NumberFormatException e) {
                 view.write("Invalid value. Use digits");
             }
-        }
-
-        while (true) {
-            try {
-                DevelopersDto developer = new DevelopersDto(name, age, gender, different, salary);
-                developersService.save(developer);
-                break;
-            } catch (DeveloperAlreadyExistException exception) {
-                view.write(exception.getMessage());
+            if (age == -1) {
+                view.write("Developer not added. Try again.");
+            } else if (age > 0) {
+                gender = developerColumns[2];
+                different = developerColumns[3];
+                try {
+                    salary = Integer.parseInt(developerColumns[4]);
+                } catch (NumberFormatException e) {
+                    view.write("Invalid value. Use digits");
+                }
+                if (salary == -1) {
+                    view.write("Developer not added. Try again.");
+                } else {
+                    while (true) {
+                        try {
+                            DevelopersDto developer = new DevelopersDto(name, age, gender, different, salary);
+                            developersService.save(developer);
+                            break;
+                        } catch (DeveloperAlreadyExistException exception) {
+                            view.write(exception.getMessage());
+                        }
+                    }
+                    view.write("Developer added. Thank you!");
+                }
+            } else {
+                view.write("Developer not added. Try again.");
             }
         }
-        view.write("Developer added. Thank you!");
     }
 }

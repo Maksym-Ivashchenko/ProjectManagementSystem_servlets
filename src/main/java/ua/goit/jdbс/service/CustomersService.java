@@ -36,4 +36,8 @@ public class CustomersService implements Service<CustomersDto> {
         CustomersDao byId = customersRepository.findById(id);
         return customersConverter.from(byId);
     }
+
+    public int getCountOfColumn(){
+        return customersRepository.getCountOfColumn();
+    }
 }

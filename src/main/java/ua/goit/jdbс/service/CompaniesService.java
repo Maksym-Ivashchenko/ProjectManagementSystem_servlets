@@ -14,7 +14,6 @@ public class CompaniesService implements Service<CompaniesDto> {
         this.companiesConverter = companiesConverter;
     }
 
-
     @Override
     public CompaniesDto save(CompaniesDto entity) {
         CompaniesDao savedCompany = companiesRepository.save(companiesConverter.to(entity));
@@ -36,5 +35,9 @@ public class CompaniesService implements Service<CompaniesDto> {
     public CompaniesDto findById(Integer id) {
         CompaniesDao byId = companiesRepository.findById(id);
         return companiesConverter.from(byId);
+    }
+
+    public int getCountOfColumn() {
+        return companiesRepository.getCountOfColumn();
     }
 }

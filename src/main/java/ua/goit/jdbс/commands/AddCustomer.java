@@ -22,21 +22,33 @@ public class AddCustomer implements Command {
 
     @Override
     public void execute() {
-        view.write("Enter customer name: ");
-        String customerName = view.read();
-        view.write("Enter country, customer location: ");
-        String country = view.read();
-        view.write("Enter customer's email: ");
-        String email = view.read();
-        while (true) {
-            try {
-                CustomersDto customer = new CustomersDto(customerName, country, email);
-                customersService.save(customer);
-                break;
-            } catch (CustomerAlreadyExistException exception) {
-                view.write(exception.getMessage());
+        view.write("Enter customer name, country and email separated by a '/': ");
+        String[] customerColumns = view.read().split("/");
+        String customerName = null;
+        String country = null;
+        String email = null;
+        if (customerColumns.length == customersService.getCountOfColumn() - 1) {
+            for (int i = 0; i <= customerColumns.length - 1; i++) {
+                String s = customerColumns[i].replace(",", "").strip();
+                customerColumns[i] = s;
+                switch (i) {
+                    case 0 -> customerName = customerColumns[i];
+                    case 1 -> country = customerColumns[i];
+                    case 2 -> email = customerColumns[i];
+                }
             }
+            while (true) {
+                try {
+                    CustomersDto customer = new CustomersDto(customerName, country, email);
+                    customersService.save(customer);
+                    break;
+                } catch (CustomerAlreadyExistException exception) {
+                    view.write(exception.getMessage());
+                }
+            }
+            view.write("Customer added. Thank you!");
+        } else {
+            view.write("Customer not added. Try again.");
         }
-        view.write("Customer added. Thank you!");
     }
 }
