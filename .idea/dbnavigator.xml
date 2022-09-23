@@ -35,7 +35,11 @@
       <console name="go_it_dev" type="STANDARD" schema="goit_dev" session="Main"><![CDATA[SELECT id, developer_name, age, gender, different, salary 
 FROM developers;
 
-select * from developers; 
+select * from projects; 
+
+SELECT COUNT(*)
+  FROM INFORMATION_SCHEMA.COLUMNS
+ WHERE table_name = 'companies';
 
 INSERT INTO skills
 	(skill_level, branch)

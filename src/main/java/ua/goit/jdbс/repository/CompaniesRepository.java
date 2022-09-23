@@ -9,19 +9,19 @@ import java.util.List;
 import java.util.Objects;
 
 public class CompaniesRepository implements Repository<CompaniesDao> {
-    private final DatabaseManagerConnector connector;
-
-    private static final String INSERT = "INSERT INTO companies (company_name, city, email) " +
-            "VALUES (?, ?, ?)";
-    private static final String SELECT_BY_ID = "SELECT id, company_name, city, email " +
-            "FROM companies WHERE id = ?";
-    private static final String UPDATE_BY_ID = "UPDATE companies " +
-            "SET company_name = ?, city = ?, email = ?" +
-            "WHERE id = ?;";
-    private static final String DELETE_BY_ID = "DELETE FROM companies WHERE id = ?;";
+    DatabaseManagerConnector connector;
+    public static final String TABLE_NAME = "companies";
+    private static final String INSERT = "INSERT INTO " + TABLE_NAME + " (company_name, city, email)" +
+            " VALUES (?, ?, ?)";
+    private static final String SELECT_BY_ID = "SELECT id, company_name, city, email" +
+            " FROM " + TABLE_NAME + " WHERE id = ?";
+    private static final String UPDATE_BY_ID = "UPDATE " + TABLE_NAME +
+            " SET company_name = ?, city = ?, email = ?" +
+            " WHERE id = ?;";
+    private static final String DELETE_BY_ID = "DELETE FROM " + TABLE_NAME + " WHERE id = ?;";
     private static final String SELECT_ALL = "SELECT id, company_name, city, email " +
-            "FROM companies;";
-    private static final String COUNT_OF_COLUMN = "SELECT * FROM companies;";
+            "FROM " + TABLE_NAME + ";";
+
     public CompaniesRepository(DatabaseManagerConnector connector) {
         this.connector = connector;
     }
@@ -120,17 +120,20 @@ public class CompaniesRepository implements Repository<CompaniesDao> {
         return daoList;
     }
 
-    public int getCountOfColumn() {
-        int numOfCol=0;
-        try(Connection connection = connector.getConnection();
-        PreparedStatement statement = connection.prepareStatement(COUNT_OF_COLUMN)) {
-            ResultSet rs = statement.executeQuery();
-            ResultSetMetaData metaData = rs.getMetaData();
-            numOfCol=metaData.getColumnCount();
+    public Integer getCountOfColumn(String tableName) {
+        int result = 0;
+        ResultSet resultSet;
+        try (Connection connection = connector.getConnection();
+             PreparedStatement statement = connection.prepareStatement(JoinedSQLRequests.COUNT_OF_COLUMN)) {
+            statement.setString(1, tableName);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                result = resultSet.getInt(1);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return numOfCol;
+        return result;
     }
 
     private CompaniesDao convert(ResultSet resultSet) throws SQLException {

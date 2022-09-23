@@ -37,7 +37,7 @@ public class CustomersService implements Service<CustomersDto> {
         return customersConverter.from(byId);
     }
 
-    public int getCountOfColumn(){
-        return customersRepository.getCountOfColumn();
+    public int getCountOfColumn(String tableName){
+        return customersRepository.getCountOfColumn(tableName);
     }
 }

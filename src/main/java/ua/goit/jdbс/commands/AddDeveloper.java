@@ -2,6 +2,7 @@ package ua.goit.jdbс.commands;
 
 import ua.goit.jdbс.dto.DevelopersDto;
 import ua.goit.jdbс.exceptions.DeveloperAlreadyExistException;
+import ua.goit.jdbс.repository.DevelopersRepository;
 import ua.goit.jdbс.service.DevelopersService;
 import ua.goit.jdbс.view.View;
 
@@ -29,7 +30,7 @@ public class AddDeveloper implements Command {
         String gender;
         String different;
         int salary = -1;
-        if (developerColumns.length == developersService.getCountOfColumn() - 1) {
+        if (developerColumns.length == developersService.getCountOfColumn(DevelopersRepository.TABLE_NAME) - 1) {
             for (int i = 0; i <= developerColumns.length - 1; i++) {
                 String s = developerColumns[i].replace(",", "").strip();
                 developerColumns[i] = s;
@@ -67,6 +68,6 @@ public class AddDeveloper implements Command {
             } else {
                 view.write("Developer not added. Try again.");
             }
-        }
+        } else {view.write("Developer not added. Try again.");}
     }
 }

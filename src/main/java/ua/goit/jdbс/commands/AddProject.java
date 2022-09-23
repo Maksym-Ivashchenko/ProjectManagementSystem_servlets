@@ -2,6 +2,7 @@ package ua.goit.jdbс.commands;
 
 import ua.goit.jdbс.dto.ProjectsDto;
 import ua.goit.jdbс.exceptions.ProjectAlreadyExistException;
+import ua.goit.jdbс.repository.ProjectsRepository;
 import ua.goit.jdbс.service.ProjectsService;
 import ua.goit.jdbс.view.View;
 
@@ -24,41 +25,53 @@ public class AddProject implements Command {
 
     @Override
     public void execute() {
-        view.write("Enter project name: ");
-        String name = view.read();
-        view.write("Enter project type: ");
-        String projectType = view.read();
-        view.write("Enter comments: ");
-        String comments = view.read();
+        view.write("Enter project name, type, comments, cost and date created in yyyy-mm-dd format separated by a '/': ");
+        String[] projectColumns = view.read().split("/");
+        String name;
+        String projectType;
+        String comments;
         int cost = -1;
-        while (true) {
+        LocalDate dateCreated = null;
+        if (projectColumns.length == projectsService.getCountOfColumn(ProjectsRepository.TABLE_NAME) - 1) {
+            for (int i = 0; i <= projectColumns.length - 1; i++) {
+                String s = projectColumns[i].replace(",", "").strip();
+                projectColumns[i] = s;
+            }
+            name = projectColumns[0];
+            projectType = projectColumns[1];
+            comments = projectColumns[2];
             try {
-                view.write("Enter cost: ");
-                cost = Integer.parseInt(view.read());
-                break;
+                cost = Integer.parseInt(projectColumns[3]);
             } catch (NumberFormatException e) {
                 view.write("Invalid value. Use digits");
             }
-        }
-        LocalDate dateCreated;
-        while (true) {
-            try {
-                view.write("Enter date created in format yyyy-mm-dd: ");
-                dateCreated = LocalDate.parse(view.read());
-                break;
-            } catch (Exception e) {
-                view.write("Invalid value. Use digits");
+            if (cost == -1) {
+                view.write("Project not added. Try again.");
+            } else if (cost > 0) {
+                try {
+                    dateCreated = LocalDate.parse(projectColumns[4]);
+                } catch (Exception e) {
+                    view.write("Invalid value. Use digits");
+                }
+                if (dateCreated == null) {
+                    view.write("Project not added. Try again.");
+                } else {
+                    while (true) {
+                        try {
+                            ProjectsDto project = new ProjectsDto(name, projectType, comments, cost, dateCreated);
+                            projectsService.save(project);
+                            break;
+                        } catch (ProjectAlreadyExistException exception) {
+                            view.write(exception.getMessage());
+                        }
+                    }
+                    view.write("Project added. Thank you!");
+                }
+            } else {
+                view.write("Project not added. Try again.");
             }
+        } else {
+            view.write("Project not added. Try again.");
         }
-        while (true) {
-            try {
-                ProjectsDto project = new ProjectsDto(name, projectType, comments, cost, dateCreated);
-                projectsService.save(project);
-                break;
-            } catch (ProjectAlreadyExistException exception) {
-                view.write(exception.getMessage());
-            }
-        }
-        view.write("Project added. Thank you!");
     }
 }

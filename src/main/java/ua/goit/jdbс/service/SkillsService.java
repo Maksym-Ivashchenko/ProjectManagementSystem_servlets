@@ -36,4 +36,8 @@ public class SkillsService implements Service<SkillsDto> {
         SkillsDao byId = skillsRepository.findById(id);
         return skillsConverter.from(byId);
     }
+
+    public Integer getCountOfColumn(String tableName) {
+        return skillsRepository.getCountOfColumn(tableName);
+    }
 }

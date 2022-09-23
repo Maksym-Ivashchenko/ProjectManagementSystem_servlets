@@ -2,6 +2,7 @@ package ua.goit.jdbс.commands;
 
 import ua.goit.jdbс.dto.CompaniesDto;
 import ua.goit.jdbс.exceptions.CompanyAlreadyExistException;
+import ua.goit.jdbс.repository.CompaniesRepository;
 import ua.goit.jdbс.service.CompaniesService;
 import ua.goit.jdbс.view.View;
 
@@ -27,7 +28,7 @@ public class AddCompany implements Command {
         String companyName = null;
         String city = null;
         String email = null;
-        if (companyColumns.length == companiesService.getCountOfColumn() - 1) {
+        if (companyColumns.length == companiesService.getCountOfColumn(CompaniesRepository.TABLE_NAME) - 1) {
             for (int i = 0; i <= companyColumns.length - 1; i++) {
                 String s = companyColumns[i].replace(",", "").strip();
                 companyColumns[i] = s;

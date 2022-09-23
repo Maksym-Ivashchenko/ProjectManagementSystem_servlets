@@ -2,6 +2,7 @@ package ua.goit.jdbс.commands;
 
 import ua.goit.jdbс.dto.CustomersDto;
 import ua.goit.jdbс.exceptions.CustomerAlreadyExistException;
+import ua.goit.jdbс.repository.CustomersRepository;
 import ua.goit.jdbс.service.CustomersService;
 import ua.goit.jdbс.view.View;
 
@@ -27,7 +28,7 @@ public class AddCustomer implements Command {
         String customerName = null;
         String country = null;
         String email = null;
-        if (customerColumns.length == customersService.getCountOfColumn() - 1) {
+        if (customerColumns.length == customersService.getCountOfColumn(CustomersRepository.TABLE_NAME) - 1) {
             for (int i = 0; i <= customerColumns.length - 1; i++) {
                 String s = customerColumns[i].replace(",", "").strip();
                 customerColumns[i] = s;

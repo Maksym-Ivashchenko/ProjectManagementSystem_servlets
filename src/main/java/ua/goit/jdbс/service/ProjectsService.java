@@ -54,4 +54,8 @@ public class ProjectsService implements Service<ProjectsDto> {
     public List<String> getListOfProjectsNames() {
         return projectsRepository.getListOfProjectsNames();
     }
+
+    public int getCountOfColumn(String tableName) {
+        return projectsRepository.getCountOfColumn(tableName);
+    }
 }

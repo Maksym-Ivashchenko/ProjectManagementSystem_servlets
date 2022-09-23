@@ -50,8 +50,8 @@ public class DevelopersService implements Service<DevelopersDto> {
         return developersRepository.getListOfAllDevelopersBySkillLevel(skillLevel);
     }
 
-    public int getCountOfColumn() {
-        return developersRepository.getCountOfColumn();
+    public int getCountOfColumn(String tableName) {
+        return developersRepository.getCountOfColumn(tableName);
     }
 
     private void validateDeveloper(DevelopersDto savedDeveloper, DevelopersDto newDeveloper) {

@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class CustomersRepository implements Repository<CustomersDao> {
+public class CustomersRepository extends JoinedSQLRequests implements Repository<CustomersDao> {
     private final DatabaseManagerConnector connector;
-
+    public static final String TABLE_NAME = "customers";
     private static final String INSERT = "INSERT INTO customers (customer_name, country, email) " +
             "VALUES (?, ?, ?)";
     private static final String SELECT_BY_ID = "SELECT id, customer_name, country, email " +
@@ -21,9 +21,9 @@ public class CustomersRepository implements Repository<CustomersDao> {
     private static final String DELETE_BY_ID = "DELETE FROM customers WHERE id = ?;";
     private static final String SELECT_ALL = "SELECT id, customer_name, country, email " +
             "FROM customers;";
-    private static final String COUNT_OF_COLUMN = "SELECT * FROM customers;";
 
     public CustomersRepository(DatabaseManagerConnector connector) {
+        super(connector);
         this.connector = connector;
     }
 
@@ -120,19 +120,6 @@ public class CustomersRepository implements Repository<CustomersDao> {
             throw new RuntimeException("Customers not found");
         }
         return daoList;
-    }
-
-    public int getCountOfColumn() {
-        int numOfCol = 0;
-        try (Connection connection = connector.getConnection();
-             PreparedStatement statement = connection.prepareStatement(COUNT_OF_COLUMN)) {
-            ResultSet rs = statement.executeQuery();
-            ResultSetMetaData metaData = rs.getMetaData();
-            numOfCol = metaData.getColumnCount();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return numOfCol;
     }
 
     private CustomersDao convert(ResultSet resultSet) throws SQLException {

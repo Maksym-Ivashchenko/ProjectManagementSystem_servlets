@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class ProjectsRepository implements Repository<ProjectsDao> {
+public class ProjectsRepository extends JoinedSQLRequests implements Repository<ProjectsDao> {
     private final DatabaseManagerConnector connector;
-
+    public static final String TABLE_NAME = "projects";
     private static final String INSERT = "INSERT INTO projects (project_name, project_type, " +
             "comments, cost, date_created) VALUES (?, ?, ?, ?, ?)";
     private static final String SELECT_BY_ID = "SELECT id, project_name, project_type, comments, cost, date_created " +
@@ -21,23 +21,24 @@ public class ProjectsRepository implements Repository<ProjectsDao> {
     private static final String DELETE_BY_ID = "DELETE FROM projects WHERE id = ?;";
     private static final String SELECT_ALL = "SELECT id, project_name, project_type, comments, cost, date_created " +
             "FROM projects;";
-    private static final String SALARY_OF_ALL_DEVELOPERS = "SELECT sum(salary) FROM developers AS d\n" +
-            "JOIN developers_projects AS dp ON d.id = dp.developer_id\n" +
-            "JOIN projects AS p ON p.id = dp.project_id\n" +
-            "WHERE p.project_name = ?;";
-    private static final String LIST_OF_PROJECT_DEVELOPERS = "SELECT developer_name FROM developers AS d\n" +
-            "JOIN developers_projects AS dp ON d.id = dp.developer_id\n" +
-            "JOIN projects AS p ON p.id = dp.project_id\n" +
-            "WHERE p.project_name = ?;";
+    private static final String SALARY_OF_ALL_DEVELOPERS = "SELECT sum(salary) FROM developers AS d" +
+            " JOIN developers_projects AS dp ON d.id = dp.developer_id" +
+            " JOIN projects AS p ON p.id = dp.project_id" +
+            " WHERE p.project_name = ?;";
+    private static final String LIST_OF_PROJECT_DEVELOPERS = "SELECT developer_name FROM developers AS d" +
+            " JOIN developers_projects AS dp ON d.id = dp.developer_id" +
+            " JOIN projects AS p ON p.id = dp.project_id" +
+            " WHERE p.project_name = ?;";
     private static final String LIST_OF_PROJECTS_IN_THE_FORMAT =
-            "SELECT p.date_created, p.project_name, COUNT(d.developer_name) FROM projects AS p\n" +
-            "JOIN developers_projects AS dp ON p.id = dp.project_id\n" +
-            "JOIN developers AS d ON d.id = dp.developer_id\n" +
-            "GROUP BY p.date_created, p.project_name\n" +
-            "ORDER BY project_name;";
+            "SELECT p.date_created, p.project_name, COUNT(d.developer_name) FROM projects AS p" +
+            " JOIN developers_projects AS dp ON p.id = dp.project_id" +
+            " JOIN developers AS d ON d.id = dp.developer_id" +
+            " GROUP BY p.date_created, p.project_name" +
+            " ORDER BY project_name;";
     private static final String LIST_OF_PROJECTS_NAMES = "SELECT project_name FROM projects;";
 
     public ProjectsRepository(DatabaseManagerConnector connector) {
+        super(connector);
         this.connector = connector;
     }
 

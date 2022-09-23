@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class DevelopersRepository implements Repository<DevelopersDao> {
+public class DevelopersRepository extends JoinedSQLRequests implements Repository<DevelopersDao> {
     private final DatabaseManagerConnector connector;
-
+    public static final String TABLE_NAME = "developers";
     private static final String INSERT = "INSERT INTO developers (developer_name, age, gender, " +
             "different, salary) VALUES (?, ?, ?, ?, ?);";
     private static final String SELECT_BY_ID = "SELECT id, developer_name, age, gender, different, salary " +
@@ -22,18 +22,18 @@ public class DevelopersRepository implements Repository<DevelopersDao> {
     private static final String SELECT_ALL = "SELECT id, developer_name, age, gender, different, salary " +
             "FROM developers;";
     private static final String LIST_OF_ALL_DEVELOPERS_BY_BRANCH =
-            "SELECT developer_name FROM developers AS d\n" +
-            "JOIN developers_skills AS ds ON d.id = ds.developer_id\n" +
-            "JOIN skills AS s ON s.id = ds.skill_id\n" +
-            "WHERE s.branch = ?;";
+            "SELECT developer_name FROM developers AS d" +
+                    "JOIN developers_skills AS ds ON d.id = ds.developer_id" +
+                    "JOIN skills AS s ON s.id = ds.skill_id" +
+                    "WHERE s.branch = ?;";
     private static final String LIST_OF_ALL_DEVELOPERS_BY_SKILL_LEVEL =
-            "SELECT developer_name FROM developers AS d\n" +
-                    "JOIN developers_skills AS ds ON d.id = ds.developer_id\n" +
-                    "JOIN skills AS s ON s.id = ds.skill_id\n" +
+            "SELECT developer_name FROM developers AS d" +
+                    "JOIN developers_skills AS ds ON d.id = ds.developer_id" +
+                    "JOIN skills AS s ON s.id = ds.skill_id" +
                     "WHERE s.skill_level = ?;";
-    private static final String COUNT_OF_COLUMN = "SELECT * FROM developers;";
 
     public DevelopersRepository(DatabaseManagerConnector connector) {
+        super(connector);
         this.connector = connector;
     }
 
@@ -168,19 +168,6 @@ public class DevelopersRepository implements Repository<DevelopersDao> {
             throw new RuntimeException("Request failed!");
         }
         return daoList;
-    }
-
-    public int getCountOfColumn() {
-        int numOfCol = 0;
-        try (Connection connection = connector.getConnection();
-             PreparedStatement statement = connection.prepareStatement(COUNT_OF_COLUMN)) {
-            ResultSet rs = statement.executeQuery();
-            ResultSetMetaData metaData = rs.getMetaData();
-            numOfCol = metaData.getColumnCount();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return numOfCol;
     }
 
     private void setParameters(ResultSet resultSet, DevelopersDao developersDao) throws SQLException {
