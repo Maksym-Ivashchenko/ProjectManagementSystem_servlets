@@ -29,11 +29,7 @@
                 </ul>
             </div>
         </nav>
-        <form action="/developers">
-            <label for="id">Developer id: </label><br>
-            <input type="text" id="developerId" name="developerId">
-            <button type="submit">Find</button>
-        </form>
+        
         <table>
             <thead>
                 <tr>
@@ -45,23 +41,25 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>
-                        <c:out value="${developer.developerName}"/>
-                    </td>
-                    <td>
-                        <c:out value="${developer.age}"/>
-                    </td>
-                    <td>
-                        <c:out value="${developer.gender}"/>
-                    </td>
-                    <td>
-                        <c:out value="${developer.different}"/>
-                    </td>
-                    <td>
-                        <c:out value="${developer.salary}"/>
-                    </td>
-                </tr>
+                <c:forEach var="developer" items="${developers}">
+                    <tr>
+                        <td>
+                            <c:out value="${developer.developerName}"/>
+                        </td>
+                        <td>
+                            <c:out value="${developer.age}"/>
+                        </td>
+                        <td>
+                            <c:out value="${developer.gender}"/>
+                        </td>
+                        <td>
+                            <c:out value="${developer.different}"/>
+                        </td>
+                        <td>
+                            <c:out value="${developer.salary}"/>
+                        </td>
+                    </tr>
+                </c:forEach>
             </tbody>
         </table>
     </body>

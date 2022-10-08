@@ -17,7 +17,7 @@
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Developers <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="/developers/form">Find developer</a></li>
-                            <li><a href="#">Page 1-2</a></li>
+                            <li><a href="/developers/all">Find all developer</a></li>
                             <li><a href="#">Page 1-3</a></li>
                         </ul>
                     </li>
