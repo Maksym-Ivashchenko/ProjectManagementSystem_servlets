@@ -15,7 +15,7 @@ build/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-temp.html
+!**/src/main/webapp/jsp/temp.html
 
 ### Eclipse ###
 .apt_generated
