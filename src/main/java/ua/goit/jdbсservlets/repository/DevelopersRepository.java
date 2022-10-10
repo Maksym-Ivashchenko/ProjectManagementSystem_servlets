@@ -10,27 +10,26 @@ import java.util.Objects;
 
 public class DevelopersRepository extends JoinedSQLRequests implements Repository<DevelopersDao> {
     private final DatabaseManagerConnector connector;
-    public static final String TABLE_NAME = "developers";
     private static final String INSERT = "INSERT INTO developers (developer_name, age, gender, " +
             "different, salary) VALUES (?, ?, ?, ?, ?);";
-    private static final String SELECT_BY_ID = "SELECT id, developer_name, age, gender, different, salary " +
-            "FROM developers WHERE id = ?;";
-    private static final String UPDATE_BY_ID = "UPDATE developers " +
-            "SET developer_name = ?, age = ?, gender = ?, different = ?, salary = ?" +
-            "WHERE id = ?;";
+    private static final String SELECT_BY_ID = "SELECT id, developer_name, age, gender, different, salary" +
+            " FROM developers WHERE id = ?;";
+    private static final String UPDATE_BY_ID = "UPDATE developers" +
+            " SET developer_name = ?, age = ?, gender = ?, different = ?, salary = ?" +
+            " WHERE id = ?;";
     private static final String DELETE_BY_ID = "DELETE FROM developers WHERE id = ?;";
     private static final String SELECT_ALL = "SELECT id, developer_name, age, gender, different, salary " +
             "FROM developers;";
     private static final String LIST_OF_ALL_DEVELOPERS_BY_BRANCH =
-            "SELECT developer_name FROM developers AS d" +
-                    "JOIN developers_skills AS ds ON d.id = ds.developer_id" +
-                    "JOIN skills AS s ON s.id = ds.skill_id" +
-                    "WHERE s.branch = ?;";
+            "SELECT d.id, d.developer_name, d.age, d.gender, d.different, d.salary FROM developers AS d" +
+                    " JOIN developers_skills AS ds ON d.id = ds.developer_id" +
+                    " JOIN skills AS s ON s.id = ds.skill_id" +
+                    " WHERE s.branch = ?;";
     private static final String LIST_OF_ALL_DEVELOPERS_BY_SKILL_LEVEL =
-            "SELECT developer_name FROM developers AS d" +
-                    "JOIN developers_skills AS ds ON d.id = ds.developer_id" +
-                    "JOIN skills AS s ON s.id = ds.skill_id" +
-                    "WHERE s.skill_level = ?;";
+            "SELECT d.id, d.developer_name, d.age, d.gender, d.different, d.salary FROM developers AS d" +
+                    " JOIN developers_skills AS ds ON d.id = ds.developer_id" +
+                    " JOIN skills AS s ON s.id = ds.skill_id" +
+                    " WHERE s.skill_level = ?;";
 
     public DevelopersRepository(DatabaseManagerConnector connector) {
         super(connector);
@@ -105,12 +104,12 @@ public class DevelopersRepository extends JoinedSQLRequests implements Repositor
             statement.setInt(1, id);
 
             resultSet = statement.executeQuery();
-            return Objects.isNull(resultSet) ? null : convert(resultSet);
+            return Objects.isNull(resultSet) ? new DevelopersDao() : convert(resultSet);
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return new DevelopersDao();
     }
 
     @Override
@@ -119,7 +118,6 @@ public class DevelopersRepository extends JoinedSQLRequests implements Repositor
         ResultSet resultSet;
         try (Connection connection = connector.getConnection();
              PreparedStatement statement = connection.prepareStatement(SELECT_ALL)) {
-
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 DevelopersDao developersDao = new DevelopersDao();
@@ -134,16 +132,17 @@ public class DevelopersRepository extends JoinedSQLRequests implements Repositor
         return daoList;
     }
 
-    public List<String> getListOfAllDevelopersByBranch(String branch) {
-        List<String> daoList = new ArrayList<>();
+    public List<DevelopersDao> getListOfAllDevelopersByBranch(String branch) {
+        List<DevelopersDao> daoList = new ArrayList<>();
         ResultSet resultSet;
         try (Connection connection = connector.getConnection();
              PreparedStatement statement = connection.prepareStatement(LIST_OF_ALL_DEVELOPERS_BY_BRANCH)) {
             statement.setString(1, branch);
-
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                daoList.add(resultSet.getString("developer_name"));
+                DevelopersDao developersDao = new DevelopersDao();
+                setParameters(resultSet, developersDao);
+                daoList.add(developersDao);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -152,16 +151,17 @@ public class DevelopersRepository extends JoinedSQLRequests implements Repositor
         return daoList;
     }
 
-    public List<String> getListOfAllDevelopersBySkillLevel(String skillLevel) {
-        List<String> daoList = new ArrayList<>();
+    public List<DevelopersDao> getListOfAllDevelopersBySkillLevel(String skillLevel) {
+        List<DevelopersDao> daoList = new ArrayList<>();
         ResultSet resultSet;
         try (Connection connection = connector.getConnection();
              PreparedStatement statement = connection.prepareStatement(LIST_OF_ALL_DEVELOPERS_BY_SKILL_LEVEL)) {
             statement.setString(1, skillLevel);
-
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                daoList.add(resultSet.getString("developer_name"));
+                DevelopersDao developersDao = new DevelopersDao();
+                setParameters(resultSet, developersDao);
+                daoList.add(developersDao);
             }
         } catch (SQLException e) {
             e.printStackTrace();

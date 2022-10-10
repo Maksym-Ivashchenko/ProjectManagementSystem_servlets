@@ -61,16 +61,16 @@ JOIN goit_dev.projects AS p ON p.id = dp.project_id
 WHERE p.project_name = 'Project_3';
 
 3
-SELECT developer_name FROM goit_dev.developers AS d
+SELECT d.id, d.developer_name, d.age, d.gender, d.different, d.salary FROM goit_dev.developers AS d
 JOIN goit_dev.developers_skills AS ds ON d.id = ds.developer_id
 JOIN goit_dev.skills AS s ON s.id = ds.skill_id
 WHERE s.branch = 'Java';
 
 4
-SELECT developer_name FROM goit_dev.developers AS d
+SELECT d.id, d.developer_name, d.age, d.gender, d.different, d.salary, s.branch, s.skill_level FROM goit_dev.developers AS d
 JOIN goit_dev.developers_skills AS ds ON d.id = ds.developer_id
 JOIN goit_dev.skills AS s ON s.id = ds.skill_id
-WHERE s.skill_level = 'Middle';
+WHERE s.skill_level = 'Senior';
 
 5
 SELECT p.date_created, p.project_name, COUNT(d.developer_name) FROM goit_dev.projects AS p

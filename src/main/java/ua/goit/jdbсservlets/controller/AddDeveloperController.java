@@ -13,11 +13,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 import java.util.Properties;
 
-@WebServlet(urlPatterns = "/developers/all")
-public class FindAllDevelopersController extends HttpServlet {
+@WebServlet(urlPatterns = "/developers/add")
+public class AddDeveloperController extends HttpServlet {
     private DevelopersService developersService;
 
     @Override
@@ -33,8 +32,14 @@ public class FindAllDevelopersController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<DevelopersDto> developersDtoList = developersService.findAll();
-        req.setAttribute("developers", developersDtoList);
-        req.getRequestDispatcher("/view/findAllDevelopers.jsp").forward(req, resp);
+        String developerName = req.getParameter("developerName");
+        int age = Integer.parseInt(req.getParameter("age"));
+        String gender = req.getParameter("gender");
+        String different = req.getParameter("different");
+        int salary = Integer.parseInt(req.getParameter("salary"));
+        DevelopersDto developersDto = new DevelopersDto(developerName, age, gender, different, salary);
+        DevelopersDto savedDeveloper = developersService.save(developersDto);
+        req.setAttribute("savedDeveloper", savedDeveloper);
+        req.getRequestDispatcher("/view/addDeveloper.jsp").forward(req, resp);
     }
 }

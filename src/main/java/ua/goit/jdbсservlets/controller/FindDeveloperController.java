@@ -35,6 +35,6 @@ public class FindDeveloperController extends HttpServlet {
         int developerId = Integer.parseInt(req.getParameter("developerId"));
         DevelopersDto developerDto = developersService.findById(developerId);
         req.setAttribute("developer", developerDto);
-        req.getRequestDispatcher("/jsp/findDeveloper.jsp").forward(req, resp);
+        req.getRequestDispatcher("/view/findDeveloper.jsp").forward(req, resp);
     }
 }

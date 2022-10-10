@@ -13,11 +13,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 import java.util.Properties;
 
-@WebServlet(urlPatterns = "/developers/all")
-public class FindAllDevelopersController extends HttpServlet {
+@WebServlet(urlPatterns = "/developers/delete")
+public class DeleteDeveloperController extends HttpServlet {
     private DevelopersService developersService;
 
     @Override
@@ -33,8 +32,9 @@ public class FindAllDevelopersController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<DevelopersDto> developersDtoList = developersService.findAll();
-        req.setAttribute("developers", developersDtoList);
-        req.getRequestDispatcher("/view/findAllDevelopers.jsp").forward(req, resp);
+        int developerId = Integer.parseInt(req.getParameter("developerId"));
+        DevelopersDto developerDto = developersService.findById(developerId);
+        developersService.delete(developerDto);
+        req.getRequestDispatcher("/view/deleteDeveloper.jsp").forward(req, resp);
     }
 }

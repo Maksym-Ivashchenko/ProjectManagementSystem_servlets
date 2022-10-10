@@ -16,8 +16,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 
-@WebServlet(urlPatterns = "/developers/all")
-public class FindAllDevelopersController extends HttpServlet {
+@WebServlet(urlPatterns = "/developers/branch")
+public class GetListOfAllDevelopersByBranchController extends HttpServlet {
     private DevelopersService developersService;
 
     @Override
@@ -33,8 +33,9 @@ public class FindAllDevelopersController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<DevelopersDto> developersDtoList = developersService.findAll();
-        req.setAttribute("developers", developersDtoList);
-        req.getRequestDispatcher("/view/findAllDevelopers.jsp").forward(req, resp);
+        String developerBranch = req.getParameter("developerBranch");
+        List<DevelopersDto> developersByBranch = developersService.getListOfAllDevelopersByBranch(developerBranch);
+        req.setAttribute("developers", developersByBranch);
+        req.getRequestDispatcher("/view/getListOfAllDevelopersByBranch.jsp").forward(req, resp);
     }
 }

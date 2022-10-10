@@ -6,10 +6,6 @@ import ua.goit.jdbсservlets.exceptions.DeveloperAlreadyExistException;
 import ua.goit.jdbсservlets.repository.DevelopersRepository;
 import ua.goit.jdbсservlets.service.convert.DevelopersConverter;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,16 +52,22 @@ public class DevelopersService implements Service<DevelopersDto> {
         return developersDtoList;
     }
 
-    public List<String> getListOfAllDevelopersByBranch(String branch) {
-        return developersRepository.getListOfAllDevelopersByBranch(branch);
+    public List<DevelopersDto> getListOfAllDevelopersByBranch(String branch) {
+        List<DevelopersDto> developersDtoList = new ArrayList<>();
+        List<DevelopersDao> list = developersRepository.getListOfAllDevelopersByBranch(branch);
+        for (DevelopersDao dao : list) {
+            developersDtoList.add(developersConverter.from(dao));
+        }
+        return developersDtoList;
     }
 
-    public List<String> getListOfAllDevelopersBySkillLevel(String skillLevel) {
-        return developersRepository.getListOfAllDevelopersBySkillLevel(skillLevel);
-    }
-
-    public int getCountOfColumn(String tableName) {
-        return developersRepository.getCountOfColumn(tableName);
+    public List<DevelopersDto> getListOfAllDevelopersBySkillLevel(String skillLevel) {
+        List<DevelopersDto> developersDtoList = new ArrayList<>();
+        List<DevelopersDao> list = developersRepository.getListOfAllDevelopersBySkillLevel(skillLevel);
+        for (DevelopersDao dao : list) {
+            developersDtoList.add(developersConverter.from(dao));
+        }
+        return developersDtoList;
     }
 
     private void validateDeveloper(DevelopersDto savedDeveloper, DevelopersDto newDeveloper) {
