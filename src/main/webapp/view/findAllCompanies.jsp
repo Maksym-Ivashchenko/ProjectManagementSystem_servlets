@@ -82,49 +82,34 @@
                 </ul>
             </div>
         </nav>
-        <form action="/developers/add">
-            <label for="name">Developer name: </label><br>
-            <input type="text" id="developerName" name="developerName"><br>
-            <label for="name">Age: </label><br>
-            <input type="text" id="age" name="age"><br>
-            <label for="name">Gender: </label><br>
-            <input type="text" id="gender" name="gender"><br>
-            <label for="name">Different: </label><br>
-            <input type="text" id="different" name="different"><br>
-            <label for="name">Salary: </label><br>
-            <input type="text" id="salary" name="salary"><br>
-            <button type="submit">Save</button>
-        </form><br>
+        
         <table>
             <thead>
                 <tr>
-                    <td>Developer name:</td>
-                    <td>Age:</td>
-                    <td>Gender:</td>
-                    <td>Different:</td>
-                    <td>Salary:</td>
+                    <td>ID:</td>
+                    <td>Company name:</td>
+                    <td>City:</td>
+                    <td>E-mail:</td>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>
-                        <c:out value="${savedDeveloper.developerName}"/>
-                    </td>
-                    <td>
-                        <c:out value="${savedDeveloper.age}"/>
-                    </td>
-                    <td>
-                        <c:out value="${savedDeveloper.gender}"/>
-                    </td>
-                    <td>
-                        <c:out value="${savedDeveloper.different}"/>
-                    </td>
-                    <td>
-                        <c:out value="${savedDeveloper.salary}"/>
-                    </td>
-                </tr>
+                <c:forEach var="company" items="${companies}">
+                    <tr>
+                        <td>
+                            <c:out value="${company.id}"/>
+                        </td>
+                        <td>
+                            <c:out value="${company.companyName}"/>
+                        </td>
+                        <td>
+                            <c:out value="${company.city}"/>
+                        </td>
+                        <td>
+                            <c:out value="${company.email}"/>
+                        </td>
+                    </tr>
+                </c:forEach>
             </tbody>
         </table>
-        <c:out value="Developer added."/>
     </body>
 </html>

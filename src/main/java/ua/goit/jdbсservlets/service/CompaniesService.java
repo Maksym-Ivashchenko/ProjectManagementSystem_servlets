@@ -5,6 +5,9 @@ import ua.goit.jdbсservlets.dto.CompaniesDto;
 import ua.goit.jdbсservlets.repository.CompaniesRepository;
 import ua.goit.jdbсservlets.service.convert.CompaniesConverter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CompaniesService implements Service<CompaniesDto> {
     private final CompaniesRepository companiesRepository;
     private final CompaniesConverter companiesConverter;
@@ -37,7 +40,12 @@ public class CompaniesService implements Service<CompaniesDto> {
         return companiesConverter.from(byId);
     }
 
-    public Integer getCountOfColumn(String tableName) {
-        return companiesRepository.getCountOfColumn(tableName);
+    public List<CompaniesDto> findAll() {
+        List<CompaniesDto> companiesDtoList = new ArrayList<>();
+        List<CompaniesDao> companiesDaoList = companiesRepository.findAll();
+        for (CompaniesDao dao: companiesDaoList) {
+            companiesDtoList.add(companiesConverter.from(dao));
+        }
+        return companiesDtoList;
     }
 }

@@ -120,22 +120,6 @@ public class CompaniesRepository implements Repository<CompaniesDao> {
         return daoList;
     }
 
-    public Integer getCountOfColumn(String tableName) {
-        int result = 0;
-        ResultSet resultSet;
-        try (Connection connection = connector.getConnection();
-             PreparedStatement statement = connection.prepareStatement(JoinedSQLRequests.COUNT_OF_COLUMN)) {
-            statement.setString(1, tableName);
-            resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                result = resultSet.getInt(1);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
     private CompaniesDao convert(ResultSet resultSet) throws SQLException {
         CompaniesDao companiesDao = new CompaniesDao();
         while (resultSet.next()) {

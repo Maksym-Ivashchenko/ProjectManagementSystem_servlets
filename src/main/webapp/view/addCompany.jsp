@@ -82,49 +82,37 @@
                 </ul>
             </div>
         </nav>
-        <form action="/developers/add">
-            <label for="name">Developer name: </label><br>
-            <input type="text" id="developerName" name="developerName"><br>
-            <label for="name">Age: </label><br>
-            <input type="text" id="age" name="age"><br>
-            <label for="name">Gender: </label><br>
-            <input type="text" id="gender" name="gender"><br>
-            <label for="name">Different: </label><br>
-            <input type="text" id="different" name="different"><br>
-            <label for="name">Salary: </label><br>
-            <input type="text" id="salary" name="salary"><br>
+        <form action="/companies/add">
+            <label for="name">Company name: </label><br>
+            <input type="text" id="companyName" name="companyName"><br>
+            <label for="name">City: </label><br>
+            <input type="text" id="city" name="city"><br>
+            <label for="name">E-mail: </label><br>
+            <input type="text" id="email" name="email"><br>
             <button type="submit">Save</button>
         </form><br>
         <table>
             <thead>
                 <tr>
-                    <td>Developer name:</td>
-                    <td>Age:</td>
-                    <td>Gender:</td>
-                    <td>Different:</td>
-                    <td>Salary:</td>
+                    <td>Company name:</td>
+                    <td>City:</td>
+                    <td>E-mail:</td>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>
-                        <c:out value="${savedDeveloper.developerName}"/>
+                        <c:out value="${savedCompany.companyName}"/>
                     </td>
                     <td>
-                        <c:out value="${savedDeveloper.age}"/>
+                        <c:out value="${savedCompany.city}"/>
                     </td>
                     <td>
-                        <c:out value="${savedDeveloper.gender}"/>
-                    </td>
-                    <td>
-                        <c:out value="${savedDeveloper.different}"/>
-                    </td>
-                    <td>
-                        <c:out value="${savedDeveloper.salary}"/>
+                        <c:out value="${savedCompany.email}"/>
                     </td>
                 </tr>
             </tbody>
         </table>
-        <c:out value="Developer added."/>
+        <c:out value="Company added."/>
     </body>
 </html>
