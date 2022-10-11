@@ -5,6 +5,9 @@ import ua.goit.jdbсservlets.dto.SkillsDto;
 import ua.goit.jdbсservlets.repository.SkillsRepository;
 import ua.goit.jdbсservlets.service.convert.SkillsConverter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SkillsService implements Service<SkillsDto> {
     private final SkillsRepository skillsRepository;
     private final SkillsConverter skillsConverter;
@@ -37,7 +40,12 @@ public class SkillsService implements Service<SkillsDto> {
         return skillsConverter.from(byId);
     }
 
-    public Integer getCountOfColumn(String tableName) {
-        return skillsRepository.getCountOfColumn(tableName);
+    public List<SkillsDto> findAll() {
+        List<SkillsDto> skillsDtoList = new ArrayList<>();
+        List<SkillsDao> skillsDaoList = skillsRepository.findAll();
+        for (SkillsDao dao: skillsDaoList) {
+            skillsDtoList.add(skillsConverter.from(dao));
+        }
+        return skillsDtoList;
     }
 }

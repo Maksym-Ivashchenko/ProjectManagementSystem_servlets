@@ -20,7 +20,7 @@
                     </tr>
                 </c:if>
                 <c:if test="${empty company.id}">
-                    <p>Developer not found. Try again.</p>
+                    <p>Company not found. Try again.</p>
                 </c:if>
             </thead>
             <tbody>
