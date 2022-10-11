@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <form action="/companies">
-            <label for="id">Company id: </label><br>
-            <input type="text" id="companyId" name="companyId">
+        <form action="/customers">
+            <label for="name">Customer ID: </label><br>
+            <input type="text" id="customerId" name="customerId"><br>
             <button type="submit">Find</button>
         </form>
     </body>

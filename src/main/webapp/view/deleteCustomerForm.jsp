@@ -3,10 +3,10 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <form action="/developers/delete">
-            <label for="id">Developer id: </label><br>
-            <input type="text" id="developerId" name="developerId">
+        <form action="/customers/delete">
+            <label for="id">Customer id: </label><br>
+            <input type="text" id="customerId" name="customerId">
             <button type="submit">Delete</button>
-        </form>
+        </form><br>
     </body>
 </html>

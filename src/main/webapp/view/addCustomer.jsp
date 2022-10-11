@@ -4,11 +4,11 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <form action="/companies/add">
-            <label for="name">Company name: </label><br>
-            <input type="text" id="companyName" name="companyName"><br>
-            <label for="name">City: </label><br>
-            <input type="text" id="city" name="city"><br>
+        <form action="/customers/add">
+            <label for="name">Customer name: </label><br>
+            <input type="text" id="customerName" name="customerName"><br>
+            <label for="name">Country: </label><br>
+            <input type="text" id="country" name="country"><br>
             <label for="name">E-mail: </label><br>
             <input type="text" id="email" name="email"><br>
             <button type="submit">Save</button>
@@ -16,25 +16,25 @@
         <table>
             <thead>
                 <tr>
-                    <th>Company name:</th>
-                    <th>City:</th>
+                    <th>Customer name:</th>
+                    <th>Country:</th>
                     <th>E-mail:</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>
-                        <c:out value="${savedCompany.companyName}"/>
+                        <c:out value="${savedCustomer.customerName}"/>
                     </td>
                     <td>
-                        <c:out value="${savedCompany.city}"/>
+                        <c:out value="${savedCustomer.country}"/>
                     </td>
                     <td>
-                        <c:out value="${savedCompany.email}"/>
+                        <c:out value="${savedCustomer.email}"/>
                     </td>
                 </tr>
             </tbody>
         </table>
-        <c:out value="Company added."/>
+        <c:out value="Customer added."/>
     </body>
 </html>

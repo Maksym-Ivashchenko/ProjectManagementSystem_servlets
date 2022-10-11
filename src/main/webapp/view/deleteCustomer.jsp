@@ -4,11 +4,11 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <form action="/companies/delete">
-            <label for="id">Company id: </label><br>
-            <input type="text" id="companyId" name="companyId">
+        <form action="/customers/delete">
+            <label for="id">Customer id: </label><br>
+            <input type="text" id="customerId" name="customerId">
             <button type="submit">Delete</button>
         </form><br>
-        <c:out value="Company deleted."/>
+        <c:out value="Customer deleted."/>
     </body>
 </html>

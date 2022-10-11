@@ -7,26 +7,26 @@
         <table>
             <thead>
                 <tr>
-                    <th>ID:</th>
-                    <th>Company name:</th>
-                    <th>City:</th>
+                    <th>Customer ID:</th>
+                    <th>Customer name:</th>
+                    <th>Country:</th>
                     <th>E-mail:</th>
                 </tr>
             </thead>
             <tbody>
-                <c:forEach var="company" items="${companies}">
+                <c:forEach var="customer" items="${customers}">
                     <tr>
                         <td>
-                            <c:out value="${company.id}"/>
+                            <c:out value="${customer.id}"/>
                         </td>
                         <td>
-                            <c:out value="${company.companyName}"/>
+                            <c:out value="${customer.customerName}"/>
                         </td>
                         <td>
-                            <c:out value="${company.city}"/>
+                            <c:out value="${customer.country}"/>
                         </td>
                         <td>
-                            <c:out value="${company.email}"/>
+                            <c:out value="${customer.email}"/>
                         </td>
                     </tr>
                 </c:forEach>
