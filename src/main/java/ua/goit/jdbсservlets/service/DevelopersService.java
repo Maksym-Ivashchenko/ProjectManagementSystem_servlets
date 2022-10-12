@@ -1,7 +1,9 @@
 package ua.goit.jdbсservlets.service;
 
 import ua.goit.jdbсservlets.dao.DevelopersDao;
+import ua.goit.jdbсservlets.dao.ProjectsDao;
 import ua.goit.jdbсservlets.dto.DevelopersDto;
+import ua.goit.jdbсservlets.dto.ProjectsDto;
 import ua.goit.jdbсservlets.exceptions.DeveloperAlreadyExistException;
 import ua.goit.jdbсservlets.repository.DevelopersRepository;
 import ua.goit.jdbсservlets.service.convert.DevelopersConverter;
@@ -43,6 +45,7 @@ public class DevelopersService implements Service<DevelopersDto> {
         return developersConverter.from(byId);
     }
 
+    @Override
     public List<DevelopersDto> findAll() {
         List<DevelopersDto> developersDtoList = new ArrayList<>();
         List<DevelopersDao> developersDaoList = developersRepository.findAll();
@@ -65,6 +68,15 @@ public class DevelopersService implements Service<DevelopersDto> {
         List<DevelopersDto> developersDtoList = new ArrayList<>();
         List<DevelopersDao> list = developersRepository.getListOfAllDevelopersBySkillLevel(skillLevel);
         for (DevelopersDao dao : list) {
+            developersDtoList.add(developersConverter.from(dao));
+        }
+        return developersDtoList;
+    }
+
+    public List<DevelopersDto> getListOfProjectDevelopers(String projectName) {
+        List<DevelopersDto> developersDtoList = new ArrayList<>();
+        List<DevelopersDao> listOfProjectDevelopers = developersRepository.getListOfProjectDevelopers(projectName);
+        for (DevelopersDao dao: listOfProjectDevelopers) {
             developersDtoList.add(developersConverter.from(dao));
         }
         return developersDtoList;

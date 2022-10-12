@@ -9,7 +9,6 @@
             table {
                 font-family: arial, sans-serif;
                 border-collapse: collapse;
-                width: 600px;
             }
 
             td, th {
@@ -40,6 +39,7 @@
                             <li><a href="/developers/update/form">Update developer</a></li>
                             <li><a href="/developers/branch/form">List of all developers by branch</a></li>
                             <li><a href="/developers/level/form">List of all developers by skill level</a></li>
+                            <li><a href="/developers/project/form">Get list of project developers</a></li>
                         </ul>
                     </li>
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Companies<span class="caret"></span></a>
@@ -67,6 +67,8 @@
                             <li><a href="/projects/add/form">Add project</a></li>
                             <li><a href="/projects/delete/form">Delete project</a></li>
                             <li><a href="/projects/update/form">Update project</a></li>
+                            <li><a href="/projects/salary/form">Get salary of all developers from project</a></li>
+                            <li><a href="/projects/format">Get list of projects in the format</a></li>
                         </ul>
                     </li>
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Skills<span class="caret"></span></a>

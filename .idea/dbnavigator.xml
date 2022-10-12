@@ -49,13 +49,13 @@ VALUES
     ('Projec', 'C++'),
     ('Proje', 'Java');
 1
-SELECT sum(salary) FROM developers AS d
+SELECT sum(d.salary) FROM developers AS d
 JOIN developers_projects AS dp ON d.id = dp.developer_id
 JOIN projects AS p ON p.id = dp.project_id
 WHERE p.project_name = 'Project_3';
 
 2
-SELECT developer_name FROM goit_dev.developers AS d
+SELECT d.id, d.developer_name, d.age, d.gender, d.different, d.salary FROM goit_dev.developers AS d
 JOIN goit_dev.developers_projects AS dp ON d.id = dp.developer_id
 JOIN goit_dev.projects AS p ON p.id = dp.project_id
 WHERE p.project_name = 'Project_3';
@@ -77,7 +77,7 @@ SELECT p.date_created, p.project_name, COUNT(d.developer_name) FROM goit_dev.pro
 JOIN goit_dev.developers_projects AS dp ON p.id = dp.project_id
 JOIN goit_dev.developers AS d ON d.id = dp.developer_id
 GROUP BY p.date_created, p.project_name
-ORDER BY project_name;]]></console>
+ORDER BY p.project_name;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">

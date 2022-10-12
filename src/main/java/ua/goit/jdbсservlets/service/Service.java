@@ -1,5 +1,7 @@
 package ua.goit.jdbсservlets.service;
 
+import java.util.List;
+
 public interface Service<T> {
     T save(T entity);
 
@@ -8,4 +10,6 @@ public interface Service<T> {
     void delete(T entity);
 
     T findById(Integer id);
+
+    List<T> findAll();
 }

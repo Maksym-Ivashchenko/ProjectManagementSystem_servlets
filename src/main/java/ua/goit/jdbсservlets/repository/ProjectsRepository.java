@@ -10,22 +10,17 @@ import java.util.Objects;
 
 public class ProjectsRepository extends JoinedSQLRequests implements Repository<ProjectsDao> {
     private final DatabaseManagerConnector connector;
-    public static final String TABLE_NAME = "projects";
     private static final String INSERT = "INSERT INTO projects (project_name, project_type, " +
             "comments, cost, date_created) VALUES (?, ?, ?, ?, ?)";
     private static final String SELECT_BY_ID = "SELECT id, project_name, project_type, comments, cost, date_created " +
             "FROM projects WHERE id = ?";
     private static final String UPDATE_BY_ID = "UPDATE projects " +
             "SET project_name = ?, project_type = ?, comments = ?, cost = ?, date_created = ?" +
-            "WHERE id = ?;";
+            " WHERE id = ?;";
     private static final String DELETE_BY_ID = "DELETE FROM projects WHERE id = ?;";
     private static final String SELECT_ALL = "SELECT id, project_name, project_type, comments, cost, date_created " +
             "FROM projects;";
-    private static final String SALARY_OF_ALL_DEVELOPERS = "SELECT sum(salary) FROM developers AS d" +
-            " JOIN developers_projects AS dp ON d.id = dp.developer_id" +
-            " JOIN projects AS p ON p.id = dp.project_id" +
-            " WHERE p.project_name = ?;";
-    private static final String LIST_OF_PROJECT_DEVELOPERS = "SELECT developer_name FROM developers AS d" +
+    private static final String SALARY_OF_ALL_DEVELOPERS = "SELECT sum(d.salary) FROM developers AS d" +
             " JOIN developers_projects AS dp ON d.id = dp.developer_id" +
             " JOIN projects AS p ON p.id = dp.project_id" +
             " WHERE p.project_name = ?;";
@@ -34,8 +29,7 @@ public class ProjectsRepository extends JoinedSQLRequests implements Repository<
             " JOIN developers_projects AS dp ON p.id = dp.project_id" +
             " JOIN developers AS d ON d.id = dp.developer_id" +
             " GROUP BY p.date_created, p.project_name" +
-            " ORDER BY project_name;";
-    private static final String LIST_OF_PROJECTS_NAMES = "SELECT project_name FROM projects;";
+            " ORDER BY p.project_name;";
 
     public ProjectsRepository(DatabaseManagerConnector connector) {
         super(connector);
@@ -157,26 +151,8 @@ public class ProjectsRepository extends JoinedSQLRequests implements Repository<
         return result;
     }
 
-    public List<String> getListOfProjectDevelopers(String projectName) {
-        List<String> daoList = new ArrayList<>();
-        ResultSet resultSet;
-        try (Connection connection = connector.getConnection();
-             PreparedStatement statement = connection.prepareStatement(LIST_OF_PROJECT_DEVELOPERS)) {
-            statement.setString(1, projectName);
-
-            resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                daoList.add(resultSet.getString("developer_name"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Request failed!");
-        }
-        return daoList;
-    }
-
-    public List<String> getListOfProjectsInTheFormat() {
-        List<String> results = new ArrayList<>();
+    public List<List<String>> getListOfProjectsInTheFormat() {
+        List<List<String>> results = new ArrayList<>();
         ResultSet resultSet;
         try (Connection connection = connector.getConnection();
              PreparedStatement statement = connection.prepareStatement(LIST_OF_PROJECTS_IN_THE_FORMAT)) {
@@ -186,23 +162,7 @@ public class ProjectsRepository extends JoinedSQLRequests implements Repository<
                 daoList.add(resultSet.getString("date_created"));
                 daoList.add(resultSet.getString("project_name"));
                 daoList.add(resultSet.getString("count"));
-                results.add(daoList.toString());
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Request failed!");
-        }
-        return results;
-    }
-
-    public List<String> getListOfProjectsNames() {
-        List<String> results = new ArrayList<>();
-        ResultSet resultSet;
-        try (Connection connection = connector.getConnection();
-             PreparedStatement statement = connection.prepareStatement(LIST_OF_PROJECTS_NAMES)) {
-            resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                results.add(resultSet.getString("project_name"));
+                results.add(daoList);
             }
         } catch (SQLException e) {
             e.printStackTrace();

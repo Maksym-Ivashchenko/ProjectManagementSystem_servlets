@@ -40,6 +40,7 @@ public class SkillsService implements Service<SkillsDto> {
         return skillsConverter.from(byId);
     }
 
+    @Override
     public List<SkillsDto> findAll() {
         List<SkillsDto> skillsDtoList = new ArrayList<>();
         List<SkillsDao> skillsDaoList = skillsRepository.findAll();

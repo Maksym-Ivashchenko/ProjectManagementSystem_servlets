@@ -5,6 +5,7 @@ import ua.goit.jdbсservlets.dto.ProjectsDto;
 import ua.goit.jdbсservlets.repository.ProjectsRepository;
 import ua.goit.jdbсservlets.service.convert.ProjectsConverter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectsService implements Service<ProjectsDto> {
@@ -39,23 +40,21 @@ public class ProjectsService implements Service<ProjectsDto> {
         return projectsConverter.from(byId);
     }
 
+    @Override
+    public List<ProjectsDto> findAll() {
+        List<ProjectsDto> projectsDtoList = new ArrayList<>();
+        List<ProjectsDao> projectsDaoList = projectsRepository.findAll();
+        for (ProjectsDao dao: projectsDaoList) {
+            projectsDtoList.add(projectsConverter.from(dao));
+        }
+        return projectsDtoList;
+    }
+
     public Integer getSalaryOfAllDevelopersFromProject(String projectName) {
         return projectsRepository.getSalaryOfAllDevelopersFromProject(projectName);
     }
 
-    public List<String> getListOfProjectDevelopers(String projectName) {
-        return projectsRepository.getListOfProjectDevelopers(projectName);
-    }
-
-    public List<String> getListOfProjectsInTheFormat() {
+    public List<List<String>> getListOfProjectsInTheFormat() {
         return projectsRepository.getListOfProjectsInTheFormat();
-    }
-
-    public List<String> getListOfProjectsNames() {
-        return projectsRepository.getListOfProjectsNames();
-    }
-
-    public int getCountOfColumn(String tableName) {
-        return projectsRepository.getCountOfColumn(tableName);
     }
 }

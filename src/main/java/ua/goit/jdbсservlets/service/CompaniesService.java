@@ -40,6 +40,7 @@ public class CompaniesService implements Service<CompaniesDto> {
         return companiesConverter.from(byId);
     }
 
+    @Override
     public List<CompaniesDto> findAll() {
         List<CompaniesDto> companiesDtoList = new ArrayList<>();
         List<CompaniesDao> companiesDaoList = companiesRepository.findAll();

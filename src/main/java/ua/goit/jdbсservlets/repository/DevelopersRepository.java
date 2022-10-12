@@ -30,6 +30,11 @@ public class DevelopersRepository extends JoinedSQLRequests implements Repositor
                     " JOIN developers_skills AS ds ON d.id = ds.developer_id" +
                     " JOIN skills AS s ON s.id = ds.skill_id" +
                     " WHERE s.skill_level = ?;";
+    private static final String LIST_OF_PROJECT_DEVELOPERS =
+            "SELECT d.id, d.developer_name, d.age, d.gender, d.different, d.salary FROM developers AS d" +
+                    " JOIN developers_projects AS dp ON d.id = dp.developer_id" +
+                    " JOIN projects AS p ON p.id = dp.project_id" +
+                    " WHERE p.project_name = ?;";
 
     public DevelopersRepository(DatabaseManagerConnector connector) {
         super(connector);
@@ -157,6 +162,25 @@ public class DevelopersRepository extends JoinedSQLRequests implements Repositor
         try (Connection connection = connector.getConnection();
              PreparedStatement statement = connection.prepareStatement(LIST_OF_ALL_DEVELOPERS_BY_SKILL_LEVEL)) {
             statement.setString(1, skillLevel);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                DevelopersDao developersDao = new DevelopersDao();
+                setParameters(resultSet, developersDao);
+                daoList.add(developersDao);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Request failed!");
+        }
+        return daoList;
+    }
+
+    public List<DevelopersDao> getListOfProjectDevelopers(String projectName) {
+        List<DevelopersDao> daoList = new ArrayList<>();
+        ResultSet resultSet;
+        try (Connection connection = connector.getConnection();
+             PreparedStatement statement = connection.prepareStatement(LIST_OF_PROJECT_DEVELOPERS)) {
+            statement.setString(1, projectName);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 DevelopersDao developersDao = new DevelopersDao();

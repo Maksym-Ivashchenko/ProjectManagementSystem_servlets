@@ -40,6 +40,7 @@ public class CustomersService implements Service<CustomersDto> {
         return customersConverter.from(byId);
     }
 
+    @Override
     public List<CustomersDto> findAll() {
         List<CustomersDto> customersDtoList = new ArrayList<>();
         List<CustomersDao> customersDaoList = customersRepository.findAll();
