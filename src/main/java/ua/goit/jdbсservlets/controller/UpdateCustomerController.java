@@ -33,6 +33,14 @@ public class UpdateCustomerController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int customerId = Integer.parseInt(req.getParameter("customerId"));
+        CustomersDto customer = customersService.findById(customerId);
+        customersService.delete(customer);
+        req.getRequestDispatcher("/view/deleteCustomer.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int customerId = Integer.parseInt(req.getParameter("customerId"));
         String customerName = req.getParameter("customerName");
         String country = req.getParameter("country");
         String email = req.getParameter("email");

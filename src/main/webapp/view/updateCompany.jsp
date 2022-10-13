@@ -4,8 +4,8 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <form action="/companies/update">
-            <label for="name">Company ID: </label><br>
+        <form action="/companies/update" method="post">
+            <label for="name">ID: </label><br>
             <input type="text" id="companyId" name="companyId"><br>
             <label for="name">Company name: </label><br>
             <input type="text" id="companyName" name="companyName"><br>
@@ -18,8 +18,9 @@
         <table>
             <thead>
                 <c:if test="${not empty updatedCompany}">
+                    <p>Company updated</p>
                     <tr>
-                        <th>Company ID:</th>
+                        <th>ID:</th>
                         <th>Company name:</th>
                         <th>City:</th>
                         <th>E-mail:</th>
@@ -44,7 +45,6 @@
                         <c:out value="${updatedCompany.email}"/>
                     </td>
                 </tr>
-                <c:out value="Company updated."/>
             </tbody>
         </table>
     </body>

@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <form action="/companies/add">
+        <form action="/companies" method="post">
             <label for="name">Company name: </label><br>
             <input type="text" id="companyName" name="companyName"><br>
             <label for="name">City: </label><br>

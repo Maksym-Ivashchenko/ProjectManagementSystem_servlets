@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 @WebServlet(urlPatterns = "/customers")
-public class FindCustomerController extends HttpServlet {
+public class CustomerController extends HttpServlet {
     private CustomersService customersService;
 
     @Override
@@ -36,5 +36,16 @@ public class FindCustomerController extends HttpServlet {
         CustomersDto customerById = customersService.findById(customerId);
         req.setAttribute("customer", customerById);
         req.getRequestDispatcher("/view/findCustomer.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String customerName = req.getParameter("customerName");
+        String country = req.getParameter("country");
+        String email = req.getParameter("email");
+        CustomersDto customer = new CustomersDto(customerName, country, email);
+        CustomersDto savedCustomer = customersService.save(customer);
+        req.setAttribute("savedCustomer", savedCustomer);
+        req.getRequestDispatcher("/view/addCustomer.jsp").forward(req, resp);
     }
 }

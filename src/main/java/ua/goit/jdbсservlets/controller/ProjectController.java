@@ -16,8 +16,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Properties;
 
-@WebServlet(urlPatterns = "/projects/add")
-public class AddProjectController extends HttpServlet {
+@WebServlet(urlPatterns = "/projects")
+public class ProjectController extends HttpServlet {
     private ProjectsService projectsService;
 
     @Override
@@ -33,6 +33,14 @@ public class AddProjectController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int projectId = Integer.parseInt(req.getParameter("projectId"));
+        ProjectsDto projectById = projectsService.findById(projectId);
+        req.setAttribute("project", projectById);
+        req.getRequestDispatcher("/view/findProject.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String projectName = req.getParameter("projectName");
         String projectType = req.getParameter("projectType");
         String comments = req.getParameter("comments");

@@ -33,6 +33,14 @@ public class UpdateCompanyController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int companyId = Integer.parseInt(req.getParameter("companyId"));
+        CompaniesDto company = companiesService.findById(companyId);
+        companiesService.delete(company);
+        req.getRequestDispatcher("/view/deleteCompany.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int companyId = Integer.parseInt(req.getParameter("companyId"));
         String companyName = req.getParameter("companyName");
         String city = req.getParameter("city");
         String email = req.getParameter("email");

@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <form action="/skills/add">
+        <form action="/skills" method="post">
             <label for="name">Branch: </label><br>
             <input type="text" id="branch" name="branch"><br>
             <label for="name">Skill level: </label><br>

@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Properties;
 
-@WebServlet(urlPatterns = "/companies/delete")
-public class DeleteCompanyController extends HttpServlet {
+@WebServlet(urlPatterns = "/companies")
+public class CompanyController extends HttpServlet {
     private CompaniesService companiesService;
 
     @Override
@@ -33,8 +33,19 @@ public class DeleteCompanyController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int companyId = Integer.parseInt(req.getParameter("companyId"));
-        CompaniesDto company = companiesService.findById(companyId);
-        companiesService.delete(company);
-        req.getRequestDispatcher("/view/deleteCompany.jsp").forward(req, resp);
+        CompaniesDto companyById = companiesService.findById(companyId);
+        req.setAttribute("company", companyById);
+        req.getRequestDispatcher("/view/findCompany.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String companyName = req.getParameter("companyName");
+        String city = req.getParameter("city");
+        String email = req.getParameter("email");
+        CompaniesDto company = new CompaniesDto(companyName, city, email);
+        CompaniesDto savedCompany = companiesService.save(company);
+        req.setAttribute("savedCompany", savedCompany);
+        req.getRequestDispatcher("/view/addCompany.jsp").forward(req, resp);
     }
 }

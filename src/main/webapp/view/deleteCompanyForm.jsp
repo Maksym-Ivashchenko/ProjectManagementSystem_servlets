@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <form action="/companies/delete">
+        <form action="/companies/update">
             <label for="id">Company id: </label><br>
             <input type="text" id="companyId" name="companyId">
             <button type="submit">Delete</button>

@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <form action="/projects/add">
+        <form action="/projects" method="post">
             <label for="name">Project name: </label><br>
             <input type="text" id="projectName" name="projectName"><br>
             <label for="name">Project type: </label><br>

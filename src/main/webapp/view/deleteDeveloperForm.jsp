@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <form action="/developers/delete">
+        <form action="/developers/update">
             <label for="id">Developer id: </label><br>
             <input type="text" id="developerId" name="developerId">
             <button type="submit">Delete</button>

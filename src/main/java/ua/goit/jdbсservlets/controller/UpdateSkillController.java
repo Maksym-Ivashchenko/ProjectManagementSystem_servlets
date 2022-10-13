@@ -33,6 +33,14 @@ public class UpdateSkillController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int skillId = Integer.parseInt(req.getParameter("skillId"));
+        SkillsDto skillById = skillsService.findById(skillId);
+        skillsService.delete(skillById);
+        req.getRequestDispatcher("/view/deleteSkill.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int skillId = Integer.parseInt(req.getParameter("skillId"));
         String branch = req.getParameter("branch");
         String skillLevel = req.getParameter("skillLevel");
         SkillsDto skillsDto = new SkillsDto(skillId, branch, skillLevel);

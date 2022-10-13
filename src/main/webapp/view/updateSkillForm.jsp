@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <form action="/skills/update">
+        <form action="/skills/update" method="post">
             <label for="name">Skill ID: </label><br>
             <input type="text" id="skillId" name="skillId"><br>
             <label for="name">Branch: </label><br>

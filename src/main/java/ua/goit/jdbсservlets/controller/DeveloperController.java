@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Properties;
 
-@WebServlet(urlPatterns = "/developers/add")
-public class AddDeveloperController extends HttpServlet {
+@WebServlet(urlPatterns = "/developers")
+public class DeveloperController extends HttpServlet {
     private DevelopersService developersService;
 
     @Override
@@ -32,6 +32,14 @@ public class AddDeveloperController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int developerId = Integer.parseInt(req.getParameter("developerId"));
+        DevelopersDto developerDto = developersService.findById(developerId);
+        req.setAttribute("developer", developerDto);
+        req.getRequestDispatcher("/view/findDeveloper.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String developerName = req.getParameter("developerName");
         int age = Integer.parseInt(req.getParameter("age"));
         String gender = req.getParameter("gender");

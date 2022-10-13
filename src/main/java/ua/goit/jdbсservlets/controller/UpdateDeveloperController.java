@@ -32,6 +32,14 @@ public class UpdateDeveloperController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int developerId = Integer.parseInt(req.getParameter("developerId"));
+        DevelopersDto developerDto = developersService.findById(developerId);
+        developersService.delete(developerDto);
+        req.getRequestDispatcher("/view/deleteDeveloper.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("developerId"));
         String developerName = req.getParameter("developerName");
         int age = Integer.parseInt(req.getParameter("age"));

@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Properties;
 
-@WebServlet(urlPatterns = "/skills/add")
-public class AddSkillController extends HttpServlet {
+@WebServlet(urlPatterns = "/skills")
+public class SkillController extends HttpServlet {
     private SkillsService skillsService;
 
     @Override
@@ -32,6 +32,14 @@ public class AddSkillController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int skillId = Integer.parseInt(req.getParameter("skillId"));
+        SkillsDto skillById = skillsService.findById(skillId);
+        req.setAttribute("skill", skillById);
+        req.getRequestDispatcher("/view/findSkill.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String branch = req.getParameter("branch");
         String skillLevel = req.getParameter("skillLevel");
         SkillsDto skillsDto = new SkillsDto(branch, skillLevel);

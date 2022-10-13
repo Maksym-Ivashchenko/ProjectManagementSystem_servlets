@@ -34,6 +34,14 @@ public class UpdateProjectController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int projectId = Integer.parseInt(req.getParameter("projectId"));
+        ProjectsDto projectById = projectsService.findById(projectId);
+        projectsService.delete(projectById);
+        req.getRequestDispatcher("/view/deleteProject.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int projectId = Integer.parseInt(req.getParameter("projectId"));
         String projectName = req.getParameter("projectName");
         String projectType = req.getParameter("projectType");
         String comments = req.getParameter("comments");

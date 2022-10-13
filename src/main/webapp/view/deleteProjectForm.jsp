@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <form action="/projects/delete">
+        <form action="/projects/update">
             <label for="id">Project id: </label><br>
             <input type="text" id="projectId" name="projectId">
             <button type="submit">Delete</button>
