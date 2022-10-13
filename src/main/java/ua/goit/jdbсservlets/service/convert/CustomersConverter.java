@@ -1,7 +1,7 @@
 package ua.goit.jdbсservlets.service.convert;
 
-import ua.goit.jdbсservlets.dao.CustomersDao;
-import ua.goit.jdbсservlets.dto.CustomersDto;
+import ua.goit.jdbсservlets.model.dao.CustomersDao;
+import ua.goit.jdbсservlets.model.dto.CustomersDto;
 
 public class CustomersConverter implements Converter<CustomersDto, CustomersDao> {
     @Override

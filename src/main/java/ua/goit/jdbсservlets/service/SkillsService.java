@@ -1,7 +1,7 @@
 package ua.goit.jdbсservlets.service;
 
-import ua.goit.jdbсservlets.dao.SkillsDao;
-import ua.goit.jdbсservlets.dto.SkillsDto;
+import ua.goit.jdbсservlets.model.dao.SkillsDao;
+import ua.goit.jdbсservlets.model.dto.SkillsDto;
 import ua.goit.jdbсservlets.repository.SkillsRepository;
 import ua.goit.jdbсservlets.service.convert.SkillsConverter;
 

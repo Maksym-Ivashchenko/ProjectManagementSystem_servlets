@@ -1,8 +1,8 @@
-package ua.goit.jdbсservlets.dao;
+package ua.goit.jdbсservlets.model.dto;
 
 import java.time.LocalDate;
 
-public class ProjectsDao {
+public class ProjectsDto {
     Integer id;
     String projectName;
     String projectType;
@@ -10,10 +10,10 @@ public class ProjectsDao {
     Integer cost;
     LocalDate dateCreated;
 
-    public ProjectsDao() {
+    public ProjectsDto() {
     }
 
-    public ProjectsDao(Integer id, String projectName, String projectType, String comments, Integer cost, LocalDate dateCreated) {
+    public ProjectsDto(Integer id, String projectName, String projectType, String comments, Integer cost, LocalDate dateCreated) {
         this.id = id;
         this.projectName = projectName;
         this.projectType = projectType;
@@ -22,7 +22,7 @@ public class ProjectsDao {
         this.dateCreated = dateCreated;
     }
 
-    public ProjectsDao(String projectName, String projectType, String comments, Integer cost, LocalDate dateCreated) {
+    public ProjectsDto(String projectName, String projectType, String comments, Integer cost, LocalDate dateCreated) {
         this.projectName = projectName;
         this.projectType = projectType;
         this.comments = comments;
@@ -80,7 +80,7 @@ public class ProjectsDao {
 
     @Override
     public String toString() {
-        return "ProjectsDao{" +
+        return "ProjectsDto{" +
                 "id=" + id +
                 ", projectName='" + projectName + '\'' +
                 ", projectType='" + projectType + '\'' +

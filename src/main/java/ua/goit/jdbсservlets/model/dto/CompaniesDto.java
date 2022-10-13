@@ -1,22 +1,22 @@
-package ua.goit.jdbсservlets.dao;
+package ua.goit.jdbсservlets.model.dto;
 
-public class CompaniesDao {
+public class CompaniesDto {
     Integer id;
     String companyName;
     String city;
     String email;
 
-    public CompaniesDao() {
+    public CompaniesDto() {
     }
 
-    public CompaniesDao(Integer id, String companyName, String city, String email) {
+    public CompaniesDto(Integer id, String companyName, String city, String email) {
         this.id = id;
         this.companyName = companyName;
         this.city = city;
         this.email = email;
     }
 
-    public CompaniesDao(String companyName, String city, String email) {
+    public CompaniesDto(String companyName, String city, String email) {
         this.companyName = companyName;
         this.city = city;
         this.email = email;
@@ -56,7 +56,7 @@ public class CompaniesDao {
 
     @Override
     public String toString() {
-        return "CompaniesDao{" +
+        return "CompaniesDto{" +
                 "id=" + id +
                 ", companyName='" + companyName + '\'' +
                 ", city='" + city + '\'' +

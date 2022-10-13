@@ -1,6 +1,6 @@
-package ua.goit.jdbсservlets.dao;
+package ua.goit.jdbсservlets.model.dto;
 
-public class DevelopersDao {
+public class DevelopersDto {
     Integer id;
     String developerName;
     Integer age;
@@ -8,11 +8,10 @@ public class DevelopersDao {
     String different;
     Integer salary;
 
-    public DevelopersDao() {
+    public DevelopersDto() {
     }
 
-    public DevelopersDao(Integer id, String developerName, Integer age, String gender,
-                         String different, Integer salary) {
+    public DevelopersDto(Integer id, String developerName, Integer age, String gender, String different, Integer salary) {
         this.id = id;
         this.developerName = developerName;
         this.age = age;
@@ -21,7 +20,7 @@ public class DevelopersDao {
         this.salary = salary;
     }
 
-    public DevelopersDao(String developerName, Integer age, String gender, String different, Integer salary) {
+    public DevelopersDto(String developerName, Integer age, String gender, String different, Integer salary) {
         this.developerName = developerName;
         this.age = age;
         this.gender = gender;
@@ -79,12 +78,13 @@ public class DevelopersDao {
 
     @Override
     public String toString() {
-        return "\n{DevelopersDao:\s" +
-                "id = " + id +
-                ", developerName = " + developerName +
-                ", age = " + age +
-                ", gender = " + gender +
-                ", different = " + different +
-                ", salary = " + salary + "}";
+        return "DevelopersDto{" +
+                "id=" + id +
+                ", developerName='" + developerName + '\'' +
+                ", age=" + age +
+                ", gender='" + gender + '\'' +
+                ", different='" + different + '\'' +
+                ", salary=" + salary +
+                '}';
     }
 }

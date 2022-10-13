@@ -1,4 +1,4 @@
-package ua.goit.jdbсservlets.dto;
+package ua.goit.jdbсservlets.model.dto;
 
 public class SkillsDto {
     Integer id;
