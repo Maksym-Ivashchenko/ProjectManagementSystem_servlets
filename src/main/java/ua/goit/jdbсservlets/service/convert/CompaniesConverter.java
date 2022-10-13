@@ -1,7 +1,7 @@
 package ua.goit.jdbсservlets.service.convert;
 
-import ua.goit.jdbсservlets.dao.CompaniesDao;
-import ua.goit.jdbсservlets.dto.CompaniesDto;
+import ua.goit.jdbсservlets.model.dao.CompaniesDao;
+import ua.goit.jdbсservlets.model.dto.CompaniesDto;
 
 public class CompaniesConverter implements Converter<CompaniesDto, CompaniesDao> {
     @Override

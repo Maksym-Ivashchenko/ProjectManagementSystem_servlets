@@ -1,7 +1,7 @@
 package ua.goit.jdbсservlets.service.convert;
 
-import ua.goit.jdbсservlets.dao.ProjectsDao;
-import ua.goit.jdbсservlets.dto.ProjectsDto;
+import ua.goit.jdbсservlets.model.dao.ProjectsDao;
+import ua.goit.jdbсservlets.model.dto.ProjectsDto;
 
 public class ProjectsConverter implements Converter<ProjectsDto, ProjectsDao> {
     @Override

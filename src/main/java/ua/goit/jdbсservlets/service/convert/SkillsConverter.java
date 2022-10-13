@@ -1,7 +1,7 @@
 package ua.goit.jdbсservlets.service.convert;
 
-import ua.goit.jdbсservlets.dao.SkillsDao;
-import ua.goit.jdbсservlets.dto.SkillsDto;
+import ua.goit.jdbсservlets.model.dao.SkillsDao;
+import ua.goit.jdbсservlets.model.dto.SkillsDto;
 
 public class SkillsConverter implements Converter<SkillsDto, SkillsDao> {
     @Override

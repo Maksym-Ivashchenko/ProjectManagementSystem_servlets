@@ -2,7 +2,7 @@ package ua.goit.jdbсservlets.controller;
 
 import ua.goit.jdbсservlets.config.DatabaseManagerConnector;
 import ua.goit.jdbсservlets.config.PropertiesConfig;
-import ua.goit.jdbсservlets.dto.CompaniesDto;
+import ua.goit.jdbсservlets.model.dto.CompaniesDto;
 import ua.goit.jdbсservlets.repository.CompaniesRepository;
 import ua.goit.jdbсservlets.service.CompaniesService;
 import ua.goit.jdbсservlets.service.convert.CompaniesConverter;

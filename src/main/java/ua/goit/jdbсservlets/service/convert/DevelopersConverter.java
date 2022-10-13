@@ -1,7 +1,7 @@
 package ua.goit.jdbсservlets.service.convert;
 
-import ua.goit.jdbсservlets.dao.DevelopersDao;
-import ua.goit.jdbсservlets.dto.DevelopersDto;
+import ua.goit.jdbсservlets.model.dao.DevelopersDao;
+import ua.goit.jdbсservlets.model.dto.DevelopersDto;
 
 public class DevelopersConverter implements Converter<DevelopersDto, DevelopersDao> {
     @Override

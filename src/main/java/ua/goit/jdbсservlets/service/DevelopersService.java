@@ -1,9 +1,7 @@
 package ua.goit.jdbсservlets.service;
 
-import ua.goit.jdbсservlets.dao.DevelopersDao;
-import ua.goit.jdbсservlets.dao.ProjectsDao;
-import ua.goit.jdbсservlets.dto.DevelopersDto;
-import ua.goit.jdbсservlets.dto.ProjectsDto;
+import ua.goit.jdbсservlets.model.dao.DevelopersDao;
+import ua.goit.jdbсservlets.model.dto.DevelopersDto;
 import ua.goit.jdbсservlets.exceptions.DeveloperAlreadyExistException;
 import ua.goit.jdbсservlets.repository.DevelopersRepository;
 import ua.goit.jdbсservlets.service.convert.DevelopersConverter;

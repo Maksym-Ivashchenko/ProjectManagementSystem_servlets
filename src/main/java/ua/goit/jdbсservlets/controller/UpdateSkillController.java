@@ -2,7 +2,7 @@ package ua.goit.jdbсservlets.controller;
 
 import ua.goit.jdbсservlets.config.DatabaseManagerConnector;
 import ua.goit.jdbсservlets.config.PropertiesConfig;
-import ua.goit.jdbсservlets.dto.SkillsDto;
+import ua.goit.jdbсservlets.model.dto.SkillsDto;
 import ua.goit.jdbсservlets.repository.SkillsRepository;
 import ua.goit.jdbсservlets.service.SkillsService;
 import ua.goit.jdbсservlets.service.convert.SkillsConverter;

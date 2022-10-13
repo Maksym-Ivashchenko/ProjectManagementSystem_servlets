@@ -1,7 +1,7 @@
 package ua.goit.jdbсservlets.service;
 
-import ua.goit.jdbсservlets.dao.CustomersDao;
-import ua.goit.jdbсservlets.dto.CustomersDto;
+import ua.goit.jdbсservlets.model.dao.CustomersDao;
+import ua.goit.jdbсservlets.model.dto.CustomersDto;
 import ua.goit.jdbсservlets.repository.CustomersRepository;
 import ua.goit.jdbсservlets.service.convert.CustomersConverter;
 

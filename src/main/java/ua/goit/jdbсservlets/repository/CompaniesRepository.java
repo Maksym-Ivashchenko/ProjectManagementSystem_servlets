@@ -1,7 +1,7 @@
 package ua.goit.jdbсservlets.repository;
 
 import ua.goit.jdbсservlets.config.DatabaseManagerConnector;
-import ua.goit.jdbсservlets.dao.CompaniesDao;
+import ua.goit.jdbсservlets.model.dao.CompaniesDao;
 
 import java.sql.*;
 import java.util.ArrayList;
