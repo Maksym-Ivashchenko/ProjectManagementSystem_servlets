@@ -4,7 +4,7 @@
 <html>
     <body>
         <form action="/developers/level">
-            <label for="id">Skill level: </label><br>
+            <label for="id"><font color="#ffffff">Skill level:</font></label><br>
             <input type="text" id="developerSkillLevel" name="developerSkillLevel">
             <button type="submit">Get</button>
         </form>

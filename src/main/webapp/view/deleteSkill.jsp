@@ -4,11 +4,11 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <form action="/skills/update">
-            <label for="id">Skill id: </label><br>
+        <form action="/skills/delete">
+            <label for="id"><font color="#ffffff">Skill id:</font></label><br>
             <input type="text" id="skillId" name="skillId">
             <button type="submit">Delete</button>
         </form><br>
-        <c:out value="Skill deleted."/>
+        <p><font color="#ffffff">${message}</font></p>
     </body>
 </html>

@@ -4,12 +4,12 @@
 <!DOCTYPE html>
 <html>
     <body>
-         <form action="/customers" method="post">
-            <label for="name">Customer name: </label><br>
+         <form action="/customers/add" method="post">
+            <label for="name"><font color="#ffffff">Customer name:</font></label><br>
             <input type="text" id="customerName" name="customerName"><br>
-            <label for="name">Country: </label><br>
+            <label for="name"><font color="#ffffff">Country:</font></label><br>
             <input type="text" id="country" name="country"><br>
-            <label for="name">E-mail: </label><br>
+            <label for="name"><font color="#ffffff">E-mail:</font></label><br>
             <input type="text" id="email" name="email"><br>
             <button type="submit">Save</button>
         </form>

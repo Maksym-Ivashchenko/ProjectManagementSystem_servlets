@@ -4,7 +4,7 @@
 <html>
     <body>
         <form action="/developers/project">
-            <label for="name">Project name: </label><br>
+            <label for="name"><font color="#ffffff">Project name:</font></label><br>
             <input type="text" id="projectName" name="projectName">
             <button type="submit">Get</button>
         </form>

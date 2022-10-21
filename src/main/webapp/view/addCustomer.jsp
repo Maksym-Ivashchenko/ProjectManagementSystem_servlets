@@ -4,37 +4,42 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <form action="/customers" method="post">
-            <label for="name">Customer name: </label><br>
+        <form action="/customers/add" method="post">
+            <label for="name"><font color="#ffffff">Customer name:</font></label><br>
             <input type="text" id="customerName" name="customerName"><br>
-            <label for="name">Country: </label><br>
+            <label for="name"><font color="#ffffff">Country:</font></label><br>
             <input type="text" id="country" name="country"><br>
-            <label for="name">E-mail: </label><br>
+            <label for="name"><font color="#ffffff">E-mail:</font></label><br>
             <input type="text" id="email" name="email"><br>
             <button type="submit">Save</button>
         </form><br>
-        <table>
-            <thead>
-                <tr>
-                    <th>Customer name:</th>
-                    <th>Country:</th>
-                    <th>E-mail:</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <c:out value="${savedCustomer.customerName}"/>
-                    </td>
-                    <td>
-                        <c:out value="${savedCustomer.country}"/>
-                    </td>
-                    <td>
-                        <c:out value="${savedCustomer.email}"/>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <c:out value="Customer added."/>
+        <c:if test="${not empty savedCustomer}">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Customer name:</th>
+                        <th>Country:</th>
+                        <th>E-mail:</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <c:out value="${savedCustomer.customerName}"/>
+                        </td>
+                        <td>
+                            <c:out value="${savedCustomer.country}"/>
+                        </td>
+                        <td>
+                            <c:out value="${savedCustomer.email}"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><font color="#ffffff">${message}</font></p>
+        </c:if>
+        <c:if test="${empty savedCustomer}">
+            <p><font color="#ffffff">${message}</font></p>
+        </c:if>
     </body>
 </html>

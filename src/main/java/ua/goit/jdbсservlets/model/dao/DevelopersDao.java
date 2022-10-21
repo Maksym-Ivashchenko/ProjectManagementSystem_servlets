@@ -1,5 +1,7 @@
 package ua.goit.jdbсservlets.model.dao;
 
+import java.util.Objects;
+
 public class DevelopersDao {
     Integer id;
     String developerName;
@@ -75,6 +77,19 @@ public class DevelopersDao {
 
     public void setSalary(Integer salary) {
         this.salary = salary;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DevelopersDao)) return false;
+        DevelopersDao that = (DevelopersDao) o;
+        return Objects.equals(id, that.id) && Objects.equals(developerName, that.developerName) && Objects.equals(age, that.age) && Objects.equals(gender, that.gender) && Objects.equals(different, that.different) && Objects.equals(salary, that.salary);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, developerName, age, gender, different, salary);
     }
 
     @Override

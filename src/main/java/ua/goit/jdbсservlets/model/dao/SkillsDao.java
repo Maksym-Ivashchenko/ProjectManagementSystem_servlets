@@ -1,5 +1,7 @@
 package ua.goit.jdbсservlets.model.dao;
 
+import java.util.Objects;
+
 public class SkillsDao {
     Integer id;
     String branch;
@@ -41,6 +43,19 @@ public class SkillsDao {
 
     public void setSkillLevel(String skillLevel) {
         this.skillLevel = skillLevel;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof SkillsDao)) return false;
+        SkillsDao skillsDao = (SkillsDao) o;
+        return Objects.equals(id, skillsDao.id) && Objects.equals(branch, skillsDao.branch) && Objects.equals(skillLevel, skillsDao.skillLevel);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, branch, skillLevel);
     }
 
     @Override

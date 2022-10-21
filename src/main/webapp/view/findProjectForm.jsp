@@ -3,8 +3,8 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <form action="/projects">
-            <label for="id">Project id:</label><br>
+        <form action="/projects/find">
+            <label for="id"><font color="#ffffff">Project id:</font></label><br>
             <input type="text" id="projectId" name="projectId">
             <button type="submit">Find</button>
         </form>

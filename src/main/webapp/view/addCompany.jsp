@@ -4,37 +4,42 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <form action="/companies" method="post">
-            <label for="name">Company name: </label><br>
+        <form action="/companies/add" method="post">
+            <label for="name"><font color="#ffffff">Company name:</font></label><br>
             <input type="text" id="companyName" name="companyName"><br>
-            <label for="name">City: </label><br>
+            <label for="name"><font color="#ffffff">City:</font></label><br>
             <input type="text" id="city" name="city"><br>
-            <label for="name">E-mail: </label><br>
+            <label for="name"><font color="#ffffff">E-mail:</font></label><br>
             <input type="text" id="email" name="email"><br>
             <button type="submit">Save</button>
         </form><br>
-        <table>
-            <thead>
-                <tr>
-                    <th>Company name:</th>
-                    <th>City:</th>
-                    <th>E-mail:</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <c:out value="${savedCompany.companyName}"/>
-                    </td>
-                    <td>
-                        <c:out value="${savedCompany.city}"/>
-                    </td>
-                    <td>
-                        <c:out value="${savedCompany.email}"/>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <c:out value="Company added."/>
+        <c:if test="${not empty savedCompany}">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Company name:</th>
+                        <th>City:</th>
+                        <th>E-mail:</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <c:out value="${savedCompany.companyName}"/>
+                        </td>
+                        <td>
+                            <c:out value="${savedCompany.city}"/>
+                        </td>
+                        <td>
+                            <c:out value="${savedCompany.email}"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><font color="#ffffff">${message}</font></p>
+        </c:if>
+        <c:if test="${empty savedCompany}">
+            <p><font color="#ffffff">${message}</font></p>
+        </c:if>
     </body>
 </html>

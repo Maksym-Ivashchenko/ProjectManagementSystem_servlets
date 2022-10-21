@@ -3,8 +3,8 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <form action="/skills">
-            <label for="id">Skill id: </label><br>
+        <form action="/skills/find">
+            <label for="id"><font color="#ffffff">Skill id:</font></label><br>
             <input type="text" id="skillId" name="skillId">
             <button type="submit">Find</button>
         </form>

@@ -4,37 +4,37 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <form action="/skills">
-            <label for="id">Skill id: </label><br>
+        <form action="/skills/find">
+            <label for="id"><font color="#ffffff">Skill id:</font></label><br>
             <input type="text" id="skillId" name="skillId">
             <button type="submit">Find</button>
         </form><br>
-        <table>
-            <thead>
-                <c:if test="${not empty skill.id}">
+        <c:if test="${not empty skill.id}">
+            <table>
+                <thead>
                     <tr>
                         <th>Skill id:</th>
                         <th>Branch:</th>
                         <th>Skill level:</th>
                     </tr>
-                </c:if>
-                <c:if test="${empty skill.id}">
-                    <p>Skill not found. Try again.</p>
-                </c:if>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <c:out value="${skill.id}"/>
-                    </td>
-                    <td>
-                        <c:out value="${skill.branch}"/>
-                    </td>
-                    <td>
-                        <c:out value="${skill.skillLevel}"/>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <c:out value="${skill.id}"/>
+                        </td>
+                        <td>
+                            <c:out value="${skill.branch}"/>
+                        </td>
+                        <td>
+                            <c:out value="${skill.skillLevel}"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </c:if>
+        <c:if test="${empty skill.id}">
+            <p><font color="#ffffff">${message}</font></p>
+        </c:if>
     </body>
 </html>

@@ -5,7 +5,7 @@
 <html>
     <body>
         <form action="/projects/salary">
-            <label for="name">Project name: </label><br>
+            <label for="name"><font color="#ffffff">Project name:</font></label><br>
             <input type="text" id="projectName" name="projectName"><br>
             <button type="submit">Get</button>
         </form>

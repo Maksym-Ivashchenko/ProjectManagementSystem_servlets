@@ -8,9 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class SkillsRepository extends JoinedSQLRequests implements Repository<SkillsDao> {
+public class SkillsRepository implements Repository<SkillsDao> {
     private final DatabaseManagerConnector connector;
-    public static final String TABLE_NAME = "skills";
     private static final String INSERT = "INSERT INTO skills (branch, skill_level) " +
             "VALUES (?, ?)";
     private static final String SELECT_BY_ID = "SELECT id, branch, skill_level " +
@@ -22,7 +21,6 @@ public class SkillsRepository extends JoinedSQLRequests implements Repository<Sk
 
 
     public SkillsRepository(DatabaseManagerConnector connector) {
-        super(connector);
         this.connector = connector;
     }
 
@@ -90,12 +88,12 @@ public class SkillsRepository extends JoinedSQLRequests implements Repository<Sk
             statement.setInt(1, id);
 
             resultSet = statement.executeQuery();
-            return Objects.isNull(resultSet) ? null : convert(resultSet);
+            return Objects.isNull(resultSet) ? new SkillsDao() : convert(resultSet);
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return new SkillsDao();
     }
 
     @Override

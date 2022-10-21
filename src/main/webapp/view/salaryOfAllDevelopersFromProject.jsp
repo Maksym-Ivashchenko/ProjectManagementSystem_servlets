@@ -5,28 +5,28 @@
 <html>
     <body>
         <form action="/projects/salary">
-            <label for="name">Project name: </label><br>
+            <label for="name"><font color="#ffffff">Project name:</font></label><br>
             <input type="text" id="projectName" name="projectName"><br>
             <button type="submit">Get</button>
         </form><br>
-        <table>
-            <thead>
-                <c:if test="${not empty salary}">
+        <c:if test="${not empty salary}">
+            <table>
+                <thead>
                     <tr>
                         <th>Salary:</th>
                     </tr>
-                </c:if>
-                <c:if test="${empty salary}">
-                    <p>The project don't has developers yet.</p>
-                </c:if>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <c:out value="${salary}"/>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <c:out value="${salary}"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </c:if>
+        <c:if test="${empty salary}">
+            <p><font color="#ffffff">${message}</font></p>
+        </c:if>
     </body>
 </html>

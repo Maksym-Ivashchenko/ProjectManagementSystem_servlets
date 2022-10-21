@@ -5,13 +5,13 @@
 <html>
     <body>
         <form action="/developers/level">
-            <label for="id">Skill level: </label><br>
+            <label for="id"><font color="#ffffff">Skill level:</font></label><br>
             <input type="text" id="developerSkillLevel" name="developerSkillLevel">
             <button type="submit">Get</button>
         </form><br>
-        <table>
-            <thead>
-                <c:if test="${not empty developers}">
+        <c:if test="${not empty developers}">
+            <table>
+                <thead>
                     <tr>
                         <th>ID:</th>
                         <th>Developer name:</th>
@@ -20,35 +20,35 @@
                         <th>Different:</th>
                         <th>Salary:</th>
                     </tr>
-                </c:if>
-                <c:if test="${empty developers}">
-                    <p>Developer not found. Try again.</p>
-                </c:if>
-            </thead>
-            <tbody>
-                <c:forEach var="developer" items="${developers}">
-                    <tr>
-                        <td>
-                            <c:out value="${developer.id}"/>
-                        </td>
-                        <td>
-                            <c:out value="${developer.developerName}"/>
-                        </td>
-                        <td>
-                            <c:out value="${developer.age}"/>
-                        </td>
-                        <td>
-                            <c:out value="${developer.gender}"/>
-                        </td>
-                        <td>
-                            <c:out value="${developer.different}"/>
-                        </td>
-                        <td>
-                            <c:out value="${developer.salary}"/>
-                        </td>
-                    </tr>
-                </c:forEach>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <c:forEach var="developer" items="${developers}">
+                        <tr>
+                            <td>
+                                <c:out value="${developer.id}"/>
+                            </td>
+                            <td>
+                                <c:out value="${developer.developerName}"/>
+                            </td>
+                            <td>
+                                <c:out value="${developer.age}"/>
+                            </td>
+                            <td>
+                                <c:out value="${developer.gender}"/>
+                            </td>
+                            <td>
+                                <c:out value="${developer.different}"/>
+                            </td>
+                            <td>
+                                <c:out value="${developer.salary}"/>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </c:if>
+        <c:if test="${empty developers}">
+            <p><font color="#ffffff">${message}</font></p>
+        </c:if>
     </body>
 </html>

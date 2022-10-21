@@ -4,49 +4,53 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <form action="/developers" method="post">
-            <label for="name">Developer name: </label><br>
+        <form action="/developers/add" method="post">
+            <label for="name"><font color="#ffffff">Developer name:</font></label><br>
             <input type="text" id="developerName" name="developerName"><br>
-            <label for="name">Age: </label><br>
+            <label for="name"><font color="#ffffff">Age:</font></label><br>
             <input type="text" id="age" name="age"><br>
-            <label for="name">Gender: </label><br>
+            <label for="name"><font color="#ffffff">Gender:</font></label><br>
             <input type="text" id="gender" name="gender"><br>
-            <label for="name">Different: </label><br>
+            <label for="name"><font color="#ffffff">Different:</font></label><br>
             <input type="text" id="different" name="different"><br>
-            <label for="name">Salary: </label><br>
+            <label for="name"><font color="#ffffff">Salary:</font></label><br>
             <input type="text" id="salary" name="salary"><br>
             <button type="submit">Save</button>
         </form><br>
-        <table>
-            <thead>
-                <tr>
-                    <th>Developer name:</th>
-                    <th>Age:</th>
-                    <th>Gender:</th>
-                    <th>Different:</th>
-                    <th>Salary:</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <c:out value="${savedDeveloper.developerName}"/>
-                    </td>
-                    <td>
-                        <c:out value="${savedDeveloper.age}"/>
-                    </td>
-                    <td>
-                        <c:out value="${savedDeveloper.gender}"/>
-                    </td>
-                    <td>
-                        <c:out value="${savedDeveloper.different}"/>
-                    </td>
-                    <td>
-                        <c:out value="${savedDeveloper.salary}"/>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <c:out value="Developer added."/>
+        <c:if test="${not empty savedDeveloper}">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Developer name:</th>
+                        <th>Age:</th>
+                        <th>Gender:</th>
+                        <th>Different:</th>
+                        <th>Salary:</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <c:out value="${savedDeveloper.developerName}"/>
+                        </td>
+                        <td>
+                            <c:out value="${savedDeveloper.age}"/>
+                        </td>
+                        <td>
+                            <c:out value="${savedDeveloper.gender}"/>
+                        </td>
+                        <td>
+                            <c:out value="${savedDeveloper.different}"/>
+                        </td>
+                        <td>
+                            <c:out value="${savedDeveloper.salary}"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </c:if>
+        <c:if test="${empty savedDeveloper}">
+            <p><font color="#ffffff">${message}</font></p>
+        </c:if>
     </body>
 </html>

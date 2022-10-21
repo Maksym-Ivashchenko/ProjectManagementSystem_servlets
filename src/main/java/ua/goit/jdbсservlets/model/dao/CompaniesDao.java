@@ -1,5 +1,7 @@
 package ua.goit.jdbсservlets.model.dao;
 
+import java.util.Objects;
+
 public class CompaniesDao {
     Integer id;
     String companyName;
@@ -62,5 +64,18 @@ public class CompaniesDao {
                 ", city='" + city + '\'' +
                 ", email='" + email + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CompaniesDao)) return false;
+        CompaniesDao that = (CompaniesDao) o;
+        return Objects.equals(id, that.id) && Objects.equals(companyName, that.companyName) && Objects.equals(city, that.city) && Objects.equals(email, that.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, companyName, city, email);
     }
 }

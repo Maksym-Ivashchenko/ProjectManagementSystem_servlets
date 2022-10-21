@@ -8,9 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class CustomersRepository extends JoinedSQLRequests implements Repository<CustomersDao> {
+public class CustomersRepository implements Repository<CustomersDao> {
     private final DatabaseManagerConnector connector;
-    public static final String TABLE_NAME = "customers";
     private static final String INSERT = "INSERT INTO customers (customer_name, country, email) " +
             "VALUES (?, ?, ?)";
     private static final String SELECT_BY_ID = "SELECT id, customer_name, country, email " +
@@ -23,7 +22,6 @@ public class CustomersRepository extends JoinedSQLRequests implements Repository
             "FROM customers;";
 
     public CustomersRepository(DatabaseManagerConnector connector) {
-        super(connector);
         this.connector = connector;
     }
 
@@ -94,12 +92,12 @@ public class CustomersRepository extends JoinedSQLRequests implements Repository
             statement.setInt(1, id);
 
             resultSet = statement.executeQuery();
-            return Objects.isNull(resultSet) ? null : convert(resultSet);
+            return Objects.isNull(resultSet) ? new CustomersDao() : convert(resultSet);
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return new CustomersDao();
     }
 
     @Override

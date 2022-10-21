@@ -4,30 +4,30 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <table>
-            <thead>
-                <c:if test="${not empty projects}">
+        <c:if test="${not empty projects}">
+            <table>
+                <thead>
                     <tr>
                         <th>Date created:</th>
                         <th>Project name:</th>
                         <th>Count developers:</th>
                     </tr>
-                </c:if>
-                <c:if test="${empty projects}">
-                    <p>Developers not found. Try again.</p>
-                </c:if>
-            </thead>
-            <tbody>
-                <c:forEach var="project" items="${projects}">
-                    <tr>
-                        <c:forEach var="projects" items="${project}">
-                        <td>
-                            <c:out value="${projects}"/>
-                        </td>
-                        </c:forEach>
-                    </tr>
-                </c:forEach>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <c:forEach var="project" items="${projects}">
+                        <tr>
+                            <c:forEach var="projects" items="${project}">
+                            <td>
+                                <c:out value="${projects}"/>
+                            </td>
+                            </c:forEach>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </c:if>
+        <c:if test="${empty projects}">
+            <p><font color="#ffffff">${message}</font></p>
+        </c:if>
     </body>
 </html>

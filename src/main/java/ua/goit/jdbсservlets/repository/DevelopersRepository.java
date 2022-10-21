@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class DevelopersRepository extends JoinedSQLRequests implements Repository<DevelopersDao> {
+public class DevelopersRepository implements Repository<DevelopersDao> {
     private final DatabaseManagerConnector connector;
     private static final String INSERT = "INSERT INTO developers (developer_name, age, gender, " +
             "different, salary) VALUES (?, ?, ?, ?, ?);";
@@ -37,7 +37,6 @@ public class DevelopersRepository extends JoinedSQLRequests implements Repositor
                     " WHERE p.project_name = ?;";
 
     public DevelopersRepository(DatabaseManagerConnector connector) {
-        super(connector);
         this.connector = connector;
     }
 

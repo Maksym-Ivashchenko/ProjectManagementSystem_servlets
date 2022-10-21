@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class ProjectsRepository extends JoinedSQLRequests implements Repository<ProjectsDao> {
+public class ProjectsRepository implements Repository<ProjectsDao> {
     private final DatabaseManagerConnector connector;
     private static final String INSERT = "INSERT INTO projects (project_name, project_type, " +
             "comments, cost, date_created) VALUES (?, ?, ?, ?, ?)";
@@ -32,7 +32,6 @@ public class ProjectsRepository extends JoinedSQLRequests implements Repository<
             " ORDER BY p.project_name;";
 
     public ProjectsRepository(DatabaseManagerConnector connector) {
-        super(connector);
         this.connector = connector;
     }
 
@@ -104,12 +103,12 @@ public class ProjectsRepository extends JoinedSQLRequests implements Repository<
             statement.setInt(1, id);
 
             resultSet = statement.executeQuery();
-            return Objects.isNull(resultSet) ? null : convert(resultSet);
+            return Objects.isNull(resultSet) ? new ProjectsDao() : convert(resultSet);
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return new ProjectsDao();
     }
 
     @Override

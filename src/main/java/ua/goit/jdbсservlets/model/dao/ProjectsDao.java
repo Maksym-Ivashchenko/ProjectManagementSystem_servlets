@@ -1,6 +1,7 @@
 package ua.goit.jdbсservlets.model.dao;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class ProjectsDao {
     Integer id;
@@ -76,6 +77,19 @@ public class ProjectsDao {
 
     public void setDateCreated(LocalDate dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ProjectsDao)) return false;
+        ProjectsDao that = (ProjectsDao) o;
+        return Objects.equals(id, that.id) && Objects.equals(projectName, that.projectName) && Objects.equals(projectType, that.projectType) && Objects.equals(comments, that.comments) && Objects.equals(cost, that.cost) && Objects.equals(dateCreated, that.dateCreated);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, projectName, projectType, comments, cost, dateCreated);
     }
 
     @Override

@@ -92,12 +92,12 @@ public class CompaniesRepository implements Repository<CompaniesDao> {
             statement.setInt(1, id);
 
             resultSet = statement.executeQuery();
-            return Objects.isNull(resultSet) ? null : convert(resultSet);
+            return Objects.isNull(resultSet) ? new CompaniesDao() : convert(resultSet);
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return new CompaniesDao();
     }
 
     @Override

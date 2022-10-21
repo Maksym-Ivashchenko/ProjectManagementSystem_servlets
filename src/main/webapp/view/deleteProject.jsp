@@ -4,11 +4,11 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <form action="/projects/update">
-            <label for="id">Project id: </label><br>
+        <form action="/projects/delete">
+            <label for="id"><font color="#ffffff">Project id:</font></label><br>
             <input type="text" id="projectId" name="projectId">
             <button type="submit">Delete</button>
         </form><br>
-        <c:out value="Project deleted."/>
+        <p><font color="#ffffff">${message}</font></p>
     </body>
 </html>

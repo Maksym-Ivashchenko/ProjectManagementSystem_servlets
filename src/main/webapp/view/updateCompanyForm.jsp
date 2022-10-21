@@ -4,13 +4,13 @@
 <html>
     <body>
         <form action="/companies/update" method="post">
-            <label for="name">Company ID: </label><br>
+            <label for="name"><font color="#ffffff">Company ID:</font></label><br>
             <input type="text" id="companyId" name="companyId"><br>
-            <label for="name">Company name: </label><br>
+            <label for="name"><font color="#ffffff">Company name:</font></label><br>
             <input type="text" id="companyName" name="companyName"><br>
-            <label for="name">City: </label><br>
+            <label for="name"><font color="#ffffff">City:</font></label><br>
             <input type="text" id="city" name="city"><br>
-            <label for="name">E-mail: </label><br>
+            <label for="name"><font color="#ffffff">E-mail:</font></label><br>
             <input type="text" id="email" name="email"><br>
             <button type="submit">Update</button>
         </form>

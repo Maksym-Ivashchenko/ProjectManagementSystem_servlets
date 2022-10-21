@@ -1,5 +1,7 @@
 package ua.goit.jdbсservlets.model.dto;
 
+import java.util.Objects;
+
 public class CustomersDto {
     Integer id;
     String customerName;
@@ -52,6 +54,19 @@ public class CustomersDto {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CustomersDto)) return false;
+        CustomersDto that = (CustomersDto) o;
+        return Objects.equals(id, that.id) && Objects.equals(customerName, that.customerName) && Objects.equals(country, that.country) && Objects.equals(email, that.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, customerName, country, email);
     }
 
     @Override
